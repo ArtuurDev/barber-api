@@ -1,0 +1,16 @@
+{
+  "name": "barber-api",
+  "version": "1.0.0",
+  "description": "AGENDAMENTO -",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^22.13.9",
+    "typescript": "^5.8.2"
+  }
+}
