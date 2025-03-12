@@ -5,15 +5,15 @@ export function makeClient(override: Partial<Client> = {}, id?: UniqueEntityId) 
     
     const client = Client.create({
         name: 'artur',
-        cpf: '62240847344',
+        cpf: '622.408.473-44',
         email: 'arturcastrodossantos.com@gmail.com',
         password: '12323Amk@',
-        phone: '88996036330',
+        phone: '(88) 99603-6330',
         birthDateAt: new Date(),
         ...override
         
     }, id ?? new UniqueEntityId)
-    console.log(client)
+    
     return client
 
 }
