@@ -15,6 +15,12 @@ export class ClientInMemoryRepository implements ClientRepository{
         return clients
     }
 
+    async findById(id: string): Promise<Client | undefined> {
+        
+        const client = this.items.find(item => item.id.toValue === id)
+        return client
+    }
+
     async findByEmail(email: string): Promise<Client | undefined> {
         
         const isValidatedCpf = this.items.find(item => item.props.email === email) 
@@ -26,5 +32,15 @@ export class ClientInMemoryRepository implements ClientRepository{
         
         const isValidatedCpf = this.items.find(item => item.props.cpf === cpf) 
         return isValidatedCpf
+    }
+
+    async delete(id: string): Promise<Client | undefined> {
+        
+        const index = this.items.findIndex(item => item.id.toValue === id)
+
+        const itemRemoved = this.items.splice(index, 1)
+        
+        return itemRemoved[0]
+
     }
 }
