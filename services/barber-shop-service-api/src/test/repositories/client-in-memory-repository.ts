@@ -8,13 +8,16 @@ export class ClientInMemoryRepository implements ClientRepository{
     async create(client: Client): Promise<any>  {
     
         return this.items.push(client)
-        
+    }
+
+    async find(): Promise<Client[] | []> {
+        const clients = this.items
+        return clients
     }
 
     async findByEmail(email: string): Promise<Client | undefined> {
         
         const isValidatedCpf = this.items.find(item => item.props.email === email) 
-        
         return isValidatedCpf
 
     }
@@ -22,10 +25,6 @@ export class ClientInMemoryRepository implements ClientRepository{
     async findByCpf(cpf: string): Promise<Client | undefined> {
         
         const isValidatedCpf = this.items.find(item => item.props.cpf === cpf) 
-        
         return isValidatedCpf
-
     }
-    
-    
 }
