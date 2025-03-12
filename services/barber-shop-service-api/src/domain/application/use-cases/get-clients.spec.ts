@@ -21,7 +21,6 @@ describe('Tests an list clients', () => {
 
         const result = await sut.execute()
 
-        console.log(result.value.clients)
         expect(result.isRight()).toBe(true)
         expect(clientInMemoryRepository.items).length(3)
         expect(result.value.clients).toHaveLength(3)
