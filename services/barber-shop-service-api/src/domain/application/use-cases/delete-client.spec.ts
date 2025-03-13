@@ -19,14 +19,14 @@ describe('tests related to the use case of deleting a client', () => {
     it('Shoud be able delete to client', async () => {
 
         const client = makeClient({
-            id: new UniqueEntityId()
+            _id: new UniqueEntityId()
         })
         clientInMemoryRepository.create(client)
 
         expect(clientInMemoryRepository.items).toHaveLength(1)
         
         const result = await sut.execute({
-            id: client.id.toValue
+            id: client._id.toValue
         })
 
         expect(result.isRight()).toBe(true)
@@ -36,7 +36,7 @@ describe('tests related to the use case of deleting a client', () => {
     it('Shoud not be able to delete an client id incorrect', async () => {
 
         const client = makeClient({
-            id: new UniqueEntityId()
+            _id: new UniqueEntityId()
         })
         clientInMemoryRepository.create(client)
 

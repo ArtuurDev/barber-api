@@ -75,6 +75,7 @@ describe('Tests related to creating a client and value objects of Client',  () =
         phone: '88996036330',
         birthDateAt: new Date()        
     })  
+    console.log(result.value)
     expect(result.isRight()).toBe(true)
     expect(inMemoryClientRepository.items).length(1)
    })
