@@ -1,14 +1,14 @@
 import { Entity } from "../../../core/entitys/entity"
 import { UniqueEntityId } from "../../../core/entitys/unique-entity-id"
 import { Optional } from "../../../core/types/optional"
-import { isValidEmail } from "../../../core/utils/email-formated"
+import { formatEmail } from "../../../core/utils/email-formated"
 import { formatCpf } from "../../../core/utils/formated-cpf"
 import { formatPassord } from "../../../core/utils/formated-passord"
 import { formatPhone } from "../../../core/utils/formated-phone"
-import { CpfFormatIncorretly } from "../../../errors/cpf-format-incorretly"
 import { EmailFormatIncorretly } from "../../../errors/email-format-incorretly"
 import { PasswordFormatIncorretly } from "../../../errors/password-format-incorretly"
 import { PhoneFormatIncorretly } from "../../../errors/phone-format-incorretly"
+import { UpdateClientUseCaseRequest } from "../../application/use-cases/update-client"
 
 export interface ClienteProps {
     name: string
@@ -19,8 +19,8 @@ export interface ClienteProps {
     birthDateAt: Date
     createdAt: Date
     updatedAt?: Date
-}
 
+}
 export class Client extends Entity<ClienteProps> {
 
     private constructor(props: ClienteProps, id?: UniqueEntityId) {
@@ -29,34 +29,56 @@ export class Client extends Entity<ClienteProps> {
 
     static create(props: Optional<ClienteProps, 'createdAt' | 'updatedAt'>, id?: UniqueEntityId ) {
 
-        const formattedCpf = formatCpf(props.cpf)
-        if(!formattedCpf) {
-            throw new CpfFormatIncorretly()
-        }
-
-        const formatedEmail = isValidEmail(props.email) 
-        if(!formatedEmail) {
-            throw new EmailFormatIncorretly()
-        }
-
-        const formattedPassword = formatPassord(props.password)
-        if(!formattedPassword) {
-            throw new PasswordFormatIncorretly()
-        }
-
-        const formattedPhone = formatPhone(props.phone)
-        if(!formattedPhone) {
-            throw new PhoneFormatIncorretly()
-        }
-
         const client = new Client({
                 ...props,
-                cpf: formattedCpf,
-                phone: formattedPhone,
+                password: formatPassord(props.password),
+                email: formatEmail(props.email),
+                cpf: formatCpf(props.cpf),
+                phone: formatPhone(props.phone),
                 createdAt: props.createdAt ?? new Date(),
                 updatedAt: props.updatedAt
             }, id ?? new UniqueEntityId())
             return client
+    }
+
+
+    static update(client: ClienteProps, updatedClientProps: Partial<UpdateClientUseCaseRequest>, clientId: string) {
+
+        const {email,name,password,phone} = updatedClientProps
+
+        if(email) {
+            if(!formatEmail(email)) {
+                throw new EmailFormatIncorretly()
+            }
+        }
+
+        if(password) {
+            if(!formatPassord(password)) {
+                throw new PasswordFormatIncorretly()
+            }
+        }
+
+        if(phone) {
+            if(!formatPhone(phone)) {
+                throw new PhoneFormatIncorretly()
+            }
+        }
+
+        const clientUpdated = new Client({
+            name: client.name,
+            cpf: client.cpf,
+            email: client.email,
+            birthDateAt: client.birthDateAt,
+            phone: client.phone,
+            password: client.password,
+            createdAt: client.createdAt,
+            updatedAt: new Date(),
+            ...updatedClientProps
+        }, 
+        new UniqueEntityId(clientId)
+    )
+        return clientUpdated
+
     }
 
     get phone() {
@@ -72,6 +94,10 @@ export class Client extends Entity<ClienteProps> {
         this.props.phone = formated
         this.props.updatedAt = new Date()
        }
+
+    get createdAt() {
+        return this.props.createdAt
+    }
 
     get password() {
         return this.props.password

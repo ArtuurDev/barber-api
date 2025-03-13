@@ -1,12 +1,10 @@
-export class EmailFormatIncorretly extends Error {
-
+export class ThisIsYourEmail {
     code?: number 
     message: string
 
     constructor(message?:string, code?:number) {
-        super()
         this.code = code ?? 400
-        this.message = message ?? 'E-mail incorrect format'
+        this.message = message ?? 'The is your email, please insert outher'
     } 
     toJson() {
         return {
