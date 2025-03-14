@@ -1,4 +1,4 @@
-import { PhoneFormatIncorretly } from "../../errors/phone-format-incorretly"
+import { PhoneFormatIncorretly } from "../../domain/errors/phone-format-incorretly"
 
 export function formatPhone(phone: string) {
     // Expressão regular para validar o formato (XX) XXXXX-XXXX

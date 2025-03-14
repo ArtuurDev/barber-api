@@ -1,11 +1,11 @@
-import { PhoneFormatIncorretly } from "../../../errors/phone-format-incorretly"
+import { PhoneFormatIncorretly } from "../../errors/phone-format-incorretly"
 import { Either, left, right } from "../../../core/either"
 import { Client } from "../../enterprise/entities/client"
 import { ClientRepository } from "../repositories/client-repositorie"
-import { CpfFormatIncorretly } from "../../../errors/cpf-format-incorretly"
-import { PasswordFormatIncorretly } from "../../../errors/password-format-incorretly"
-import { EmailDuplicate } from "../../../errors/email-duplicate"
-import { CpfDuplicate } from "../../../errors/cpf-duplicate"
+import { CpfFormatIncorretly } from "../../errors/cpf-format-incorretly"
+import { PasswordFormatIncorretly } from "../../errors/password-format-incorretly"
+import { EmailDuplicate } from "../../errors/email-duplicate"
+import { CpfDuplicate } from "../../errors/cpf-duplicate"
 
 export interface ClientUseCaseRequest {
     name: string

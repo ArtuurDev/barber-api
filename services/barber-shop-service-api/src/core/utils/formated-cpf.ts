@@ -1,4 +1,4 @@
-import { CpfFormatIncorretly } from "../../errors/cpf-format-incorretly";
+import { CpfFormatIncorretly } from "../../domain/errors/cpf-format-incorretly";
 
 export function formatCpf(cpf: string) {
     // Regex para validar o formato correto: XXX.XXX.XXX-XX

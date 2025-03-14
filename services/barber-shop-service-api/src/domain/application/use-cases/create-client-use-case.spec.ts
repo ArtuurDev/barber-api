@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it } from "vitest"
 import { CreateClientUseCase } from "./create-client-use-case"
-import { PhoneFormatIncorretly } from "../../../errors/phone-format-incorretly"
-import { CpfFormatIncorretly } from "../../../errors/cpf-format-incorretly"
-import { PasswordFormatIncorretly } from "../../../errors/password-format-incorretly"
-import { CpfDuplicate } from "../../../errors/cpf-duplicate"
-import { EmailDuplicate } from "../../../errors/email-duplicate"
+import { PhoneFormatIncorretly } from "../../errors/phone-format-incorretly"
+import { CpfFormatIncorretly } from "../../errors/cpf-format-incorretly"
+import { PasswordFormatIncorretly } from "../../errors/password-format-incorretly"
+import { CpfDuplicate } from "../../errors/cpf-duplicate"
+import { EmailDuplicate } from "../../errors/email-duplicate"
 import { ClientInMemoryRepository } from "services/barber-shop-service-api/test/repositories/client-in-memory-repository"
 
 describe('Tests related to creating a client and value objects of Client',  () => {

@@ -1,13 +1,13 @@
-import { PhoneFormatIncorretly } from "../../../errors/phone-format-incorretly"
+import { PhoneFormatIncorretly } from "../../errors/phone-format-incorretly"
 import { Either, left, right } from "../../../core/either"
 import { Client } from "../../enterprise/entities/client"
 import { ClientRepository } from "../repositories/client-repositorie"
-import { PasswordFormatIncorretly } from "../../../errors/password-format-incorretly"
-import { EmailDuplicate } from "../../../errors/email-duplicate"
-import { CpfDuplicate } from "../../../errors/cpf-duplicate"
-import { IdNotExists } from "../../../errors/id-not-exists"
-import { EmailFormatIncorretly } from "../../../errors/email-format-incorretly"
-import { ThisIsYourEmail } from "../../../errors/this-is-your-email"
+import { PasswordFormatIncorretly } from "../../errors/password-format-incorretly"
+import { EmailDuplicate } from "../../errors/email-duplicate"
+import { CpfDuplicate } from "../../errors/cpf-duplicate"
+import { IdNotExists } from "../../errors/id-not-exists"
+import { EmailFormatIncorretly } from "../../errors/email-format-incorretly"
+import { ThisIsYourEmail } from "../../errors/this-is-your-email"
 
 export interface UpdateClientUseCaseRequest {
     name?: string
