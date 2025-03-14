@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest"
-import { ClientInMemoryRepository } from "../../../test/repositories/client-in-memory-repository"
 import { UpdateClientUseCase } from "./update-client"
-import { makeClient } from "../../../test/factories/make-client"
 import { EmailFormatIncorretly } from "../../../errors/email-format-incorretly"
 import { PasswordFormatIncorretly } from "../../../errors/password-format-incorretly"
 import { PhoneFormatIncorretly } from "../../../errors/phone-format-incorretly"
 import { EmailDuplicate } from "../../../errors/email-duplicate"
 import { ThisIsYourEmail } from "../../../errors/this-is-your-email"
+import { makeClient } from "services/barber-shop-service-api/test/factories/make-client"
+import { ClientInMemoryRepository } from "services/barber-shop-service-api/test/repositories/client-in-memory-repository"
 
 describe("Test related to update Client", () => {
 

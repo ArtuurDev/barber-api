@@ -1,5 +1,5 @@
+import { ClientInMemoryRepository } from "services/barber-shop-service-api/test/repositories/client-in-memory-repository";
 import { Either, right } from "../../../core/either";
-import { ClientInMemoryRepository } from "../../../test/repositories/client-in-memory-repository";
 import { Client } from "../../enterprise/entities/client";
 
 type GetClientsUseCaseResponse = Either<unknown, Client[]>

@@ -1,5 +1,5 @@
-import { UniqueEntityId } from "../../core/entitys/unique-entity-id";
-import { Client } from "../../domain/enterprise/entities/client";
+import { UniqueEntityId } from "services/barber-shop-service-api/src/core/entitys/unique-entity-id";
+import { Client } from "../../src/domain/enterprise/entities/client";
 
 export function makeClient(override: Partial<Client> = {}, id?: UniqueEntityId) {
     

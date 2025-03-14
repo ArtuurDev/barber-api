@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { ClientInMemoryRepository } from "../../../test/repositories/client-in-memory-repository";
 import { GetClientsUseCase } from "./get-clients";
-import { makeClient } from "../../../test/factories/make-client";
+import { makeClient } from "services/barber-shop-service-api/test/factories/make-client";
+import { ClientInMemoryRepository } from "services/barber-shop-service-api/test/repositories/client-in-memory-repository";
 
 describe('Tests an list clients', () => {
 

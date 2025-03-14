@@ -1,6 +1,5 @@
-import { UniqueEntityId } from "../../core/entitys/unique-entity-id"
-import { ClientRepository } from "../../domain/application/repositories/client-repositorie"
-import { Client } from "../../domain/enterprise/entities/client"
+import { ClientRepository } from "../../src/domain/application/repositories/client-repositorie"
+import { Client } from "../../src/domain/enterprise/entities/client"
 
 export class ClientInMemoryRepository implements ClientRepository{
 

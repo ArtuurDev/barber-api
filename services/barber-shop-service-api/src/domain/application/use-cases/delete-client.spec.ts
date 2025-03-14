@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it, test } from "vitest";
 import { DeleteClientsUseCase } from "./delete-client";
-import { ClientInMemoryRepository } from "../../../test/repositories/client-in-memory-repository";
-import { makeClient } from "../../../test/factories/make-client";
 import { UniqueEntityId } from "../../../core/entitys/unique-entity-id";
 import { IdNotExists } from "../../../errors/id-not-exists";
+import { makeClient } from "services/barber-shop-service-api/test/factories/make-client";
+import { ClientInMemoryRepository } from "services/barber-shop-service-api/test/repositories/client-in-memory-repository";
 
 describe('tests related to the use case of deleting a client', () => {
 
