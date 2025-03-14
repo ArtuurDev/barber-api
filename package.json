@@ -1,21 +1,18 @@
 {
-  "name": "barber-api",
+  "name": "barber-shop",
   "version": "1.0.0",
-  "description": "AGENDAMENTO -",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
-    "@faker-js/faker": "^9.6.0",
-    "@types/node": "^22.13.9",
-    "dayjs": "^1.11.13",
-    "typescript": "^5.8.2"
+    "@faker-js/faker": "^9.6.0"
   },
   "devDependencies": {
+    "typescript": "^5.8.2",
     "vitest": "^3.0.8"
   }
 }
