@@ -7,7 +7,7 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "AGENDAMENTO -",
   "dependencies": {
     "@faker-js/faker": "^9.6.0"
   },
