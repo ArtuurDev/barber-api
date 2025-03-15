@@ -6,6 +6,7 @@ import { CpfFormatIncorretly } from "../../errors/cpf-format-incorretly"
 import { PasswordFormatIncorretly } from "../../errors/password-format-incorretly"
 import { EmailDuplicate } from "../../errors/email-duplicate"
 import { CpfDuplicate } from "../../errors/cpf-duplicate"
+import { Injectable } from "@nestjs/common"
 
 export interface ClientUseCaseRequest {
     name: string
@@ -13,7 +14,7 @@ export interface ClientUseCaseRequest {
     password: string
     phone: string
     cpf: string
-    birthDateAt: Date
+    birthDateAt: string
     createdAt?: Date
     updatedAt?: Date
 }
@@ -26,6 +27,7 @@ CpfDuplicate |
 PasswordFormatIncorretly, 
 Client>
 
+@Injectable()
 export class CreateClientUseCase {
     constructor(
     private readonly repository: ClientRepository
@@ -52,7 +54,7 @@ export class CreateClientUseCase {
                 email,
                 password,
                 phone,
-                birthDateAt,
+                birthDateAt: new Date(birthDateAt),
                 cpf
             })
 
