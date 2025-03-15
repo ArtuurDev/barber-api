@@ -1,0 +1,11 @@
+POST http://localhost:3000/create
+Content-Type: application/json
+
+{
+  "name": "Artur",
+  "email": "arturcastrodossantos.com@gmail.com",
+  "password": "123456Am@",
+  "phone": "88996036330",
+  "cpf": "622.408.473-44",
+  "birthDateAt": "2025-02-24"
+}
