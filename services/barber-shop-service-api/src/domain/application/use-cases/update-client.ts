@@ -59,7 +59,7 @@ export class UpdateClientUseCase {
                 CLIENT._id.toValue,
         )
 
-            await this.repository.save(client, CLIENT._id.toValue)
+            await this.repository.save(client)
 
             return right({
                 client
