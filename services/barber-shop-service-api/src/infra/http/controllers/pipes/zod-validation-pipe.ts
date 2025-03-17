@@ -1,4 +1,5 @@
 import { PipeTransform, ArgumentMetadata, BadRequestException } from '@nestjs/common';
+import { PrismaClientValidationError } from '@prisma/client/runtime/library';
 import { ZodError, ZodSchema  } from 'zod';
 
 export class ZodValidationPipe implements PipeTransform {
@@ -11,6 +12,9 @@ export class ZodValidationPipe implements PipeTransform {
     } catch (error) {
         if(error instanceof ZodError) {
             return new BadRequestException(error.format())
+        }
+        if(error instanceof PrismaClientValidationError) {
+          return error
         }
       return new BadRequestException(error)
     }
