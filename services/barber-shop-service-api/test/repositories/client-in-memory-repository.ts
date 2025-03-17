@@ -31,6 +31,17 @@ export class ClientInMemoryRepository implements ClientRepository{
 
     }
 
+    async findByPhone(phone: string): Promise<boolean> {
+        
+        const phoneValidated = this.items.find(item => item.phone === phone)
+
+        if(!phoneValidated) {
+            return false
+        }
+
+        return true
+    }
+
     async findByCpf(cpf: string): Promise<boolean> {
         
         const cpfFound = this.items.find(item => item.cpf === cpf) 

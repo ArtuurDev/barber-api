@@ -5,6 +5,7 @@ export abstract class ClientRepository {
     abstract find(): Promise<Client[] | [] >
     abstract findById(id:string): Promise<Client | null>
     abstract findByEmail(email: string): Promise<boolean>
+    abstract findByPhone(phone: string): Promise<boolean>
     abstract findByCpf(cpf: string): Promise<boolean>
     abstract save(data: Client): Promise<any>
     abstract delete(id: string): Promise<Client | undefined>
