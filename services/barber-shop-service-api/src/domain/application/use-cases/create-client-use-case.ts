@@ -7,6 +7,7 @@ import { PasswordFormatIncorretly } from "../../errors/password-format-incorretl
 import { EmailDuplicate } from "../../errors/email-duplicate"
 import { CpfDuplicate } from "../../errors/cpf-duplicate"
 import { Injectable } from "@nestjs/common"
+import { formatDate } from "services/barber-shop-service-api/src/core/utils/format-date"
 
 export interface ClientUseCaseRequest {
     name: string
@@ -54,7 +55,7 @@ export class CreateClientUseCase {
                 email,
                 password,
                 phone,
-                birthDateAt: new Date(birthDateAt),
+                birthDateAt: formatDate(birthDateAt),
                 cpf
             })
 
