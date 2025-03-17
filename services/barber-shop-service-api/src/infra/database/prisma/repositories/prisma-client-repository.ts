@@ -2,7 +2,10 @@ import { ClientRepository } from "services/barber-shop-service-api/src/domain/ap
 import { Client } from "services/barber-shop-service-api/src/domain/enterprise/entities/client";
 import { PrismaService } from "../prisma.service";
 import { PrismaMapper } from "./mappers/mappers-client";
+import { Injectable } from "@nestjs/common";
 
+
+@Injectable()
 export class PrismaClientRepository implements ClientRepository {
     
     constructor(
@@ -61,14 +64,18 @@ export class PrismaClientRepository implements ClientRepository {
 
 
     async findByCpf(cpf: string): Promise<boolean> {
+        
         const cpfFound = await this.prisma.client.findUnique({
+            
             where: {
                 cpf
             }
         })
+
         if(!cpfFound) {
             return false
         }
+
         return true
     }
     
