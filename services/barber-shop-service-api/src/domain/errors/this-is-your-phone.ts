@@ -1,11 +1,10 @@
-export class PhoneDuplicate  {
-
+export class ThisIsYourPhone {
     code?: number 
     message: string
 
     constructor(message?:string, code?:number) {
         this.code = code ?? 400
-        this.message = message ?? 'Phone duplicate'
+        this.message = message ?? 'The is your phone, please insert outher'
     } 
     toJson() {
         return {

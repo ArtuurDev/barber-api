@@ -47,36 +47,52 @@ export class PrismaClientRepository implements ClientRepository {
     }
 
 
-    async findByEmail(email: string): Promise<boolean> {
+    async findByEmail(email: string): Promise<Client | null> {
         
-        const emailFound = await this.prisma.client.findUnique({
+        const client = await this.prisma.client.findUnique({
             where: {
                 email
             }
         })
 
-        if(!emailFound) {
-            return false
+        if(!client) {
+            return null
         }
 
-        return true
+        return PrismaMapper.toDomain(client)
     }
 
 
-    async findByCpf(cpf: string): Promise<boolean> {
+    async findByCpf(cpf: string): Promise<Client | null> {
         
-        const cpfFound = await this.prisma.client.findUnique({
+        const client = await this.prisma.client.findUnique({
             
             where: {
                 cpf
             }
         })
 
-        if(!cpfFound) {
-            return false
+        if(!client) {
+            return null
         }
 
-        return true
+        return PrismaMapper.toDomain(client)
+    }
+
+    async findByPhone(phone: string): Promise<Client | null> {
+        
+        const client = await this.prisma.client.findFirst({
+            where: {
+                phone
+            }
+        })
+
+        if(!client) {
+            return null
+        }
+
+        return PrismaMapper.toDomain(client)
+
     }
     
     async save(client: Client) {

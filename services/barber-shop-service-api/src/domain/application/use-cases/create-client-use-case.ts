@@ -1,5 +1,4 @@
 import { PhoneFormatIncorretly } from "../../errors/phone-format-incorretly"
-import { Either, left, right } from "../../../core/either"
 import { Client } from "../../enterprise/entities/client"
 import { ClientRepository } from "../repositories/client-repositorie"
 import { CpfFormatIncorretly } from "../../errors/cpf-format-incorretly"
@@ -8,6 +7,12 @@ import { EmailDuplicate } from "../../errors/email-duplicate"
 import { CpfDuplicate } from "../../errors/cpf-duplicate"
 import { Injectable } from "@nestjs/common"
 import { formatDate } from "services/barber-shop-service-api/src/core/utils/format-date"
+import { PhoneDuplicate } from "../../errors/phone-duplicate"
+import { Either, left, right } from "services/barber-shop-service-api/src/core/either"
+import { formatCpf } from "services/barber-shop-service-api/src/core/utils/formated-cpf"
+import { formatPhone } from "services/barber-shop-service-api/src/core/utils/formated-phone"
+import { formatEmail } from "services/barber-shop-service-api/src/core/utils/email-formated"
+import { EmailFormatIncorretly } from "../../errors/email-format-incorretly"
 
 export interface ClientUseCaseRequest {
     name: string
@@ -25,6 +30,7 @@ Either<PhoneFormatIncorretly |
 CpfFormatIncorretly | 
 EmailDuplicate |
 CpfDuplicate |
+PhoneDuplicate |
 PasswordFormatIncorretly, 
 Client>
 
@@ -36,7 +42,21 @@ export class CreateClientUseCase {
 
     async execute({birthDateAt,email,name,password,phone,cpf}: ClientUseCaseRequest): Promise<ClientUseCaseResponse> {
 
-        const cpfAlreadyExists = await this.repository.findByCpf(cpf)
+        const cpfIsValid = formatCpf(cpf)
+        if(!cpfIsValid) {
+            return left(new CpfFormatIncorretly())
+        }
+        const phoneIsValid = formatPhone(phone)
+        if(!phoneIsValid) {
+            return left(new PhoneFormatIncorretly())
+        }
+        const emailIsValid = formatEmail(email) 
+        if(!emailIsValid) {
+            return left(new EmailFormatIncorretly())
+        }
+
+
+        const cpfAlreadyExists = await this.repository.findByCpf(cpfIsValid)
 
         if(cpfAlreadyExists) {
             return left(new CpfDuplicate())
@@ -46,6 +66,12 @@ export class CreateClientUseCase {
 
         if(emailAlreadyExists) {
             return left(new EmailDuplicate())
+        }
+
+        const phoneAlreadyExists = await this.repository.findByPhone(phoneIsValid)
+
+        if(phoneAlreadyExists) {
+            return left(new PhoneDuplicate())
         }
 
         try {
@@ -68,15 +94,15 @@ export class CreateClientUseCase {
         catch(err) {
             
             if(err instanceof CpfFormatIncorretly) {
-                return left(new CpfFormatIncorretly())
+                return left(err)
             }
 
             if(err instanceof PasswordFormatIncorretly) {
-                return left(new PasswordFormatIncorretly())
+                return left(err)
             }
 
             if(err instanceof PhoneFormatIncorretly) {
-                return left(new PhoneFormatIncorretly())
+                return left(err)
             }
             
             return left(err)

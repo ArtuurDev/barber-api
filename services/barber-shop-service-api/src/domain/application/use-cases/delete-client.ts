@@ -1,7 +1,7 @@
 import { ClientInMemoryRepository } from "services/barber-shop-service-api/test/repositories/client-in-memory-repository";
-import { Either, left, right } from "../../../core/either";
 import { IdNotExists } from "../../errors/id-not-exists";
 import { Client } from "../../enterprise/entities/client";
+import { Either, left, right } from "services/barber-shop-service-api/src/core/either";
 
 
 interface DeleteClientsUseCaseRequest {

@@ -21,34 +21,34 @@ export class ClientInMemoryRepository implements ClientRepository{
         return client
     }
 
-    async findByEmail(email: string): Promise<boolean> {
+    async findByEmail(email: string): Promise<Client | null> {
         
-        const emailFound = this.items.find(item => item.email === email) 
-        if(!emailFound) {
-            return false
+        const client = this.items.find(item => item.email === email) 
+        if(!client) {
+            return null
         }
-        return true
+        return client
 
     }
 
-    async findByPhone(phone: string): Promise<boolean> {
+    async findByPhone(phone: string): Promise<Client | null> {
         
-        const phoneValidated = this.items.find(item => item.phone === phone)
+        const client = this.items.find(item => item.phone === phone)
 
-        if(!phoneValidated) {
-            return false
+        if(!client) {
+            return null
         }
 
-        return true
+        return client
     }
 
-    async findByCpf(cpf: string): Promise<boolean> {
+    async findByCpf(cpf: string): Promise<Client | null> {
         
-        const cpfFound = this.items.find(item => item.cpf === cpf) 
-        if(!cpfFound) {
-            return false
+        const client = this.items.find(item => item.cpf === cpf) 
+        if(!client) {
+            return null
         }
-        return true
+        return client
     }
 
     async save(data: Client) {

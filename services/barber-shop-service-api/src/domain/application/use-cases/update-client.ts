@@ -1,5 +1,4 @@
 import { PhoneFormatIncorretly } from "../../errors/phone-format-incorretly"
-import { Either, left, right } from "../../../core/either"
 import { Client } from "../../enterprise/entities/client"
 import { ClientRepository } from "../repositories/client-repositorie"
 import { PasswordFormatIncorretly } from "../../errors/password-format-incorretly"
@@ -8,6 +7,11 @@ import { CpfDuplicate } from "../../errors/cpf-duplicate"
 import { IdNotExists } from "../../errors/id-not-exists"
 import { EmailFormatIncorretly } from "../../errors/email-format-incorretly"
 import { ThisIsYourEmail } from "../../errors/this-is-your-email"
+import { ThisIsYourPhone } from "../../errors/this-is-your-phone"
+import { PhoneDuplicate } from "../../errors/phone-duplicate"
+import { Either, left, right } from "services/barber-shop-service-api/src/core/either"
+import { formatPhone } from "services/barber-shop-service-api/src/core/utils/formated-phone"
+import { formatEmail } from "services/barber-shop-service-api/src/core/utils/email-formated"
 
 export interface UpdateClientUseCaseRequest {
     name?: string
@@ -30,6 +34,16 @@ export class UpdateClientUseCase {
 
     async execute({email,name,password,phone}: UpdateClientUseCaseRequest, id: string): Promise<UpdatedUseCaseResponse> {
 
+        const phoneIsValid = formatPhone(phone)
+        if(!phoneIsValid) {
+            return left(new PhoneFormatIncorretly())
+        }
+        const emailIsValid = formatEmail(email) 
+        if(!emailIsValid) {
+            return left(new EmailFormatIncorretly())
+        }
+        
+
         const CLIENT = await this.repository.findById(id)
         
         if(!CLIENT) {
@@ -41,10 +55,23 @@ export class UpdateClientUseCase {
         }
 
         if(email) {
-        const emailAlreadyExists = await this.repository.findByEmail(email)
+        const emailAlreadyExists = await this.repository.findByEmail(emailIsValid)
             if(emailAlreadyExists) {
                 return left(new EmailDuplicate())
-            } 
+            }
+
+        
+        if(phone === CLIENT.phone) {
+            return left(new ThisIsYourPhone())
+        }
+
+        if(phone) {
+            const phoneAlreadyExists = await this.repository.findByPhone(phoneIsValid)
+            if(phoneAlreadyExists) {
+                return left(new PhoneDuplicate())
+            }
+        }
+
         }
         try {
 
@@ -68,11 +95,11 @@ export class UpdateClientUseCase {
         catch(err) {
     
             if(err instanceof PasswordFormatIncorretly) {
-                return left(new PasswordFormatIncorretly())
+                return left(err)
             }
 
             if(err instanceof PhoneFormatIncorretly) {
-                return left(new PhoneFormatIncorretly())
+                return left(err)
             }
 
             if(err instanceof EmailFormatIncorretly) {

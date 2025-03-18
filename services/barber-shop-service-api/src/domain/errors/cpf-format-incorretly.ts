@@ -3,7 +3,7 @@ export class CpfFormatIncorretly {
     message: string
     constructor(code?:number, message?:string) {
         this.code = code ?? 400
-        this.message = message ?? 'CPF must have XXX.XXX.XXX-XX'
+        this.message = message ?? 'CPF inválido'
     }
 
     toJson() {
