@@ -46,7 +46,7 @@ describe('Tests related to creating a client and value objects of Client', () =>
             name: 'artur',
             email: 'arturcastrodossantos.com@gmail.com',
             password: '1234Am@',
-            cpf: '622.408.473-42',
+            cpf: '477.341.170-82',
             phone: '88996036330',
             birthDateAt: "2006-02-24"
         })
@@ -78,7 +78,7 @@ describe('Tests related to creating a client and value objects of Client', () =>
             name: 'artur',
             email: 'arturcastrodossantos.com@gmail.com',
             password: '1234Am@',
-            cpf: '622.408.473-22',
+            cpf: '477.341.170-82',
             phone: '88996036331',
             birthDateAt: "2006-02-24"
         })
@@ -101,12 +101,12 @@ describe('Tests related to creating a client and value objects of Client', () =>
         expect(inMemoryClientRepository.items).length(1)
     })
 
-    it('CPF must be in format XXX.XXX.XXX-XX', async () => {
+    it('CPF inválido', async () => {
         const result = await sut.execute({
             name: 'artur',
             email: 'arturcastrodossantos.com@gmail.com',
             password: '1234Am@',
-            cpf: '',
+            cpf: '24325344242.e',
             phone: '88996036330',
             birthDateAt: "2006-02-24"
         })
@@ -133,7 +133,7 @@ describe('Tests related to creating a client and value objects of Client', () =>
             email: 'arturcastrodossantos.com@gmail.com',
             password: '123456',
             cpf: '622.408.473-44',
-            phone: '8899603633',
+            phone: '88996036330',
             birthDateAt: "2006-02-24"
         })
         expect(result.isLeft()).toBe(true)
@@ -146,7 +146,7 @@ describe('Tests related to creating a client and value objects of Client', () =>
             email: 'arturcastrodossantos.com@gmail.com',
             password: '123456',
             cpf: '622.408.473-44',
-            phone: '8899603633',
+            phone: '88996036330',
             birthDateAt: '24-02-2006'
         })
         expect(result.isLeft()).toBe(true)

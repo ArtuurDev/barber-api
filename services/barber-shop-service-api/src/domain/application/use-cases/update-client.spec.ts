@@ -14,26 +14,26 @@ describe("Test related to update Client", () => {
     const inMemoryClientRepository = new ClientInMemoryRepository()
     const sut = new UpdateClientUseCase(inMemoryClientRepository)
 
-    const client = makeClient();
+    const client = makeClient()
     inMemoryClientRepository.create(client)
 
     const result = await sut.execute(
       {
         name: "artur atual",
         password: "123456@As",
-        phone: "88996036330",
+        phone: "88996036331",
       },
       
       client._id.toValue
     )
 
-    expect(result.isRight()).toBe(true);
+    expect(result.isRight()).toBe(true)
 
     expect(inMemoryClientRepository.items[0]).toEqual(
       expect.objectContaining({
         name: "artur atual",
         password: "123456@As",
-        phone: "88996036330",
+        phone: "88996036331",
       })
     )
   })
@@ -111,8 +111,8 @@ describe("Test related to update Client", () => {
     const inMemoryClientRepository = new ClientInMemoryRepository()
     const sut = new UpdateClientUseCase(inMemoryClientRepository)
 
-    const client = makeClient();
-    inMemoryClientRepository.create(client);
+    const client = makeClient()
+    inMemoryClientRepository.create(client)
 
     const result = await sut.execute(
       {

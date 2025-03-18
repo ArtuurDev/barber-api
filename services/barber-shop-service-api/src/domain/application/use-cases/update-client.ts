@@ -12,6 +12,8 @@ import { PhoneDuplicate } from "../../errors/phone-duplicate"
 import { Either, left, right } from "services/barber-shop-service-api/src/core/either"
 import { formatPhone } from "services/barber-shop-service-api/src/core/utils/formated-phone"
 import { formatEmail } from "services/barber-shop-service-api/src/core/utils/email-formated"
+import { formatPassord } from "services/barber-shop-service-api/src/core/utils/formated-passord"
+import { ThisIsYourPassword } from "../../errors/this-is-your-password"
 
 export interface UpdateClientUseCaseRequest {
     name?: string
@@ -34,80 +36,73 @@ export class UpdateClientUseCase {
 
     async execute({email,name,password,phone}: UpdateClientUseCaseRequest, id: string): Promise<UpdatedUseCaseResponse> {
 
-        const phoneIsValid = formatPhone(phone)
-        if(!phoneIsValid) {
-            return left(new PhoneFormatIncorretly())
-        }
-        const emailIsValid = formatEmail(email) 
-        if(!emailIsValid) {
-            return left(new EmailFormatIncorretly())
-        }
-        
+        try {
 
-        const CLIENT = await this.repository.findById(id)
-        
-        if(!CLIENT) {
-            return left(new IdNotExists())
-        }
-
-        if(email === CLIENT.email) {
-            return left(new ThisIsYourEmail())
-        }
-
-        if(email) {
-        const emailAlreadyExists = await this.repository.findByEmail(emailIsValid)
-            if(emailAlreadyExists) {
-                return left(new EmailDuplicate())
-            }
-
-        
-        if(phone === CLIENT.phone) {
-            return left(new ThisIsYourPhone())
+        const client = await this.repository.findById(id)
+        if(!client) {
+            throw new IdNotExists()
         }
 
         if(phone) {
+            const phoneIsValid = formatPhone(phone)
+            if(phoneIsValid === client.phone) {
+                throw new ThisIsYourPhone()
+            }
             const phoneAlreadyExists = await this.repository.findByPhone(phoneIsValid)
             if(phoneAlreadyExists) {
-                return left(new PhoneDuplicate())
+                throw new PhoneDuplicate()
             }
         }
 
+        if(email) {
+        const emailIsValid = formatEmail(email) 
+        if(emailIsValid === client.email) {
+            throw new ThisIsYourEmail()
         }
-        try {
-
-            const client = Client.update(
-                CLIENT,
-            {
-                name: name ?? CLIENT.name,
-                email: email ?? CLIENT.email,
-                password: password ?? CLIENT.password,
-                phone: phone ?? CLIENT.phone
-            },
-                CLIENT._id.toValue,
-        )
-
-            await this.repository.save(client)
-
-            return right({
-                client
-            })
+        const emailAlreadyExists = await this.repository.findByEmail(emailIsValid)
+            if(emailAlreadyExists) {
+                throw new EmailDuplicate()
+            }
         }
-        catch(err) {
-    
-            if(err instanceof PasswordFormatIncorretly) {
-                return left(err)
-            }
 
-            if(err instanceof PhoneFormatIncorretly) {
-                return left(err)
+        if (password) {
+            const passwordValidated = formatPassord(password)
+            if (passwordValidated === client.password) {
+                throw new ThisIsYourPassword()
             }
+        }
+        const clientUpdated = Client.update(
+            client,
+        {
+            name: name ?? client.name,
+            email: email ?? client.email,
+            password: password ?? client.password,
+            phone: phone ?? client.phone
+        },
+            client._id.toValue)
 
-            if(err instanceof EmailFormatIncorretly) {
+        await this.repository.save(clientUpdated)
+
+        return right({
+            client
+        })
+    }  catch(err) {
+
+            if(
+                err instanceof PhoneFormatIncorretly ||
+                err instanceof EmailFormatIncorretly ||
+                err instanceof IdNotExists ||
+                err instanceof ThisIsYourEmail ||
+                err instanceof ThisIsYourPhone ||
+                err instanceof PhoneDuplicate ||
+                err instanceof ThisIsYourPassword ||
+                err instanceof PasswordFormatIncorretly
+            ) {
                 return left(err)
             }
 
             return left(err)
         }
     }
-        
 }
+

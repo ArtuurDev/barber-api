@@ -1,15 +1,15 @@
-POST http://localhost:3002/create
+POST http://localhost:3000/create
 Content-Type: application/json
 
 {
   "name": "Artur",
-  "email": "arturcastrodossantos.com@gmail.commm",
+  "email": "arturcastrodossantos.com@gmail.commmm",
   "password": "123456Am@",
-  "phone": "(88) 996036338",
-  "cpf": "801.528.450-38",
+  "phone": "(88) 996036332",
+  "cpf": "477.341.170-82",
   "birthDateAt": "2006-02-24"
 }
 
 ###
-GET http://localhost:3002/clients
+GET http://localhost:3000/clients
 Content-Type: application/json
