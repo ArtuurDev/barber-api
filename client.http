@@ -9,3 +9,7 @@ Content-Type: application/json
   "cpf": "801.528.450-38",
   "birthDateAt": "2006-02-24"
 }
+
+###
+GET http://localhost:3002/clients
+Content-Type: application/json
