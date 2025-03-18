@@ -11,8 +11,6 @@ import { PhoneDuplicate } from "../../errors/phone-duplicate"
 import { Either, left, right } from "services/barber-shop-service-api/src/core/either"
 import { formatCpf } from "services/barber-shop-service-api/src/core/utils/formated-cpf"
 import { formatPhone } from "services/barber-shop-service-api/src/core/utils/formated-phone"
-import { formatEmail } from "services/barber-shop-service-api/src/core/utils/email-formated"
-import { EmailFormatIncorretly } from "../../errors/email-format-incorretly"
 
 export interface ClientUseCaseRequest {
     name: string
@@ -42,66 +40,51 @@ export class CreateClientUseCase {
 
     async execute({birthDateAt,email,name,password,phone,cpf}: ClientUseCaseRequest): Promise<ClientUseCaseResponse> {
 
-        const cpfIsValid = formatCpf(cpf)
-        if(!cpfIsValid) {
-            return left(new CpfFormatIncorretly())
-        }
-        const phoneIsValid = formatPhone(phone)
-        if(!phoneIsValid) {
-            return left(new PhoneFormatIncorretly())
-        }
-        const emailIsValid = formatEmail(email) 
-        if(!emailIsValid) {
-            return left(new EmailFormatIncorretly())
-        }
+        try {
 
+        const cpfValid = formatCpf(cpf)
+        const phoneValid = formatPhone(phone)
 
-        const cpfAlreadyExists = await this.repository.findByCpf(cpfIsValid)
-
+        const cpfAlreadyExists = await this.repository.findByCpf(cpfValid)
         if(cpfAlreadyExists) {
-            return left(new CpfDuplicate())
+            throw new CpfFormatIncorretly()
         }
 
         const emailAlreadyExists = await this.repository.findByEmail(email)
-
         if(emailAlreadyExists) {
-            return left(new EmailDuplicate())
+            throw new EmailDuplicate()
         }
 
-        const phoneAlreadyExists = await this.repository.findByPhone(phoneIsValid)
-
+        const phoneAlreadyExists = await this.repository.findByPhone(phoneValid)
         if(phoneAlreadyExists) {
-            return left(new PhoneDuplicate())
+            throw new PhoneDuplicate()
         }
 
-        try {
+        const client = Client.create({
+            name,
+            email,
+            password,
+            phone,
+            birthDateAt: formatDate(birthDateAt),
+            cpf
+        })
 
-            const client = Client.create({
-                name,
-                email,
-                password,
-                phone,
-                birthDateAt: formatDate(birthDateAt),
-                cpf
-            })
+        await this.repository.create(client)
 
-            await this.repository.create(client)
+        return right(
+            client
+        )
 
-            return right(
-                client
-            )
         }
         catch(err) {
             
-            if(err instanceof CpfFormatIncorretly) {
-                return left(err)
-            }
-
-            if(err instanceof PasswordFormatIncorretly) {
-                return left(err)
-            }
-
-            if(err instanceof PhoneFormatIncorretly) {
+            if(
+                err instanceof CpfFormatIncorretly || 
+                err instanceof PhoneFormatIncorretly ||
+                err instanceof CpfDuplicate || 
+                err instanceof EmailDuplicate ||
+                err instanceof PhoneDuplicate
+            ) {
                 return left(err)
             }
             
