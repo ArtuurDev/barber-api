@@ -14,6 +14,7 @@ import { formatPhone } from "services/barber-shop-service-api/src/core/utils/for
 import { formatEmail } from "services/barber-shop-service-api/src/core/utils/email-formated"
 import { formatPassord } from "services/barber-shop-service-api/src/core/utils/formated-passord"
 import { ThisIsYourPassword } from "../../errors/this-is-your-password"
+import { Injectable } from "@nestjs/common"
 
 export interface UpdateClientUseCaseRequest {
     name?: string
@@ -29,6 +30,7 @@ CpfDuplicate |
 PasswordFormatIncorretly, 
 Client>
 
+@Injectable()
 export class UpdateClientUseCase {
     constructor(
     private readonly repository: ClientRepository
