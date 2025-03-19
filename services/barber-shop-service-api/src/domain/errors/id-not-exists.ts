@@ -2,7 +2,7 @@ export class IdNotExists {
     code: number
     message: string
     constructor(code?:number, message?:string) {
-        this.code = code ?? 400
+        this.code = code ?? 404
         this.message = message ?? 'This Id not exists'
     }
 
