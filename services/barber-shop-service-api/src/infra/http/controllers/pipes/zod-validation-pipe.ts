@@ -1,22 +1,17 @@
 import { PipeTransform, ArgumentMetadata, BadRequestException } from '@nestjs/common';
-import { PrismaClientValidationError } from '@prisma/client/runtime/library';
-import { ZodError, ZodSchema  } from 'zod';
+import { ZodError, ZodSchema } from 'zod';
 
 export class ZodValidationPipe implements PipeTransform {
   constructor(private schema: ZodSchema) {}
 
   transform(value: unknown, metadata: ArgumentMetadata) {
     try {
-      const parsedValue = this.schema.parse(value);
-      return parsedValue
+      return this.schema.parse(value);
     } catch (error) {
-        if(error instanceof ZodError) {
-            return new BadRequestException(error.format())
-        }
-        if(error instanceof PrismaClientValidationError) {
-          return error
-        }
-      return new BadRequestException(error)
+      if (error instanceof ZodError) {
+        throw new BadRequestException(error.format()); // Agora lançamos a exceção corretamente
+      }
+      throw new BadRequestException('Erro na validação dos dados'); // Evita expor detalhes sensíveis
     }
   }
 }

@@ -3,7 +3,7 @@ import { Response } from "express";
 import { GetClientsUseCase } from "services/barber-shop-service-api/src/domain/application/use-cases/get-clients";
 import { GetListClientPresenter } from "../../presenters/get-clients-presenter";
 
-@Controller()
+@Controller("/clients")
 export class GetClientsController {
 
     constructor(private readonly listClientsUseCase: GetClientsUseCase) {

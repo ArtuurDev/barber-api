@@ -62,7 +62,7 @@ export class ClientInMemoryRepository implements ClientRepository{
 
     }
 
-    async delete(id: string): Promise<Client | undefined> {
+    async delete(id: string): Promise<any> {
         
         const index = this.items.findIndex(item => item._id.toValue === id)
 
