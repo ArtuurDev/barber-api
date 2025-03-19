@@ -98,7 +98,7 @@ export class PrismaClientRepository implements ClientRepository {
     async save(client: Client) {
         const data = PrismaMapper.toPrisma(client)
 
-        await this.prisma.client.update({
+        return this.prisma.client.update({
             where: {
                 id: data.id
             },
@@ -108,8 +108,18 @@ export class PrismaClientRepository implements ClientRepository {
     }
 
 
-    delete(id: string): Promise<Client | undefined> {
-        throw new Error("Method not implemented.")
+    async delete(id: string): Promise<any> {
+
+        const client = this.prisma.client.delete({
+            where: {
+                id
+            }
+        })
+
+        if(!client) return null
+
+        return client
+
     }
 
 }
