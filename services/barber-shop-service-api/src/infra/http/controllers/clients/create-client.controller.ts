@@ -8,14 +8,15 @@ const requestClientSchema = z.object({
     name: z.string(),
     email: z.string().email(),
     password: z.string(),
-    phone: z.string(),
-    cpf: z.string(),
+    phone: z.string().min(11),
+    cpf: z.string().min(11),
     birthDateAt: z.string()
 })
 
 type ClientRequest = z.infer<typeof requestClientSchema>
 
-@Controller()
+@Controller("/clients")
+@UsePipes(new ZodValidationPipe(requestClientSchema))
 export class CreateClientController {
 
     constructor(
@@ -23,7 +24,6 @@ export class CreateClientController {
     ) {}
 
     @Post('/create')
-    @UsePipes(new ZodValidationPipe(requestClientSchema))
     async handle(@Body() body: ClientRequest, @Res() res: Response) {
 
         const {name,email,password,phone,cpf,birthDateAt} = body
