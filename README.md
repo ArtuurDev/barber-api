@@ -14,7 +14,7 @@ Criar um sistema eficiente para gerenciamento de clientes, barbeiros, serviços 
 
 Praticar conceitos avançados de arquitetura de software, incluindo DDD e Clean Architecture.
 
-Implementar um serviço de mensageria, permitindo explorar conceitos como eventos de domínio, filas de mensagens e pub/sub.
+Implementar um serviço de mensageria, permitindo explorar conceitos como eventos de domínio, filas de mensagens
 
 Desenvolver uma API bem estruturada e escalável.
 
@@ -28,7 +28,9 @@ Banco de Dados: PostgreSQL
 
 Arquitetura: DDD e Clean Architecture
 
-Mensageria: (a definir) – Implementação de filas e eventos de domínio
+Container: Docker 
+
+Mensageria: (Redis) – Implementação de filas e eventos de domínio
 
 Autenticação e Autorização: JWT / RBAC
 
