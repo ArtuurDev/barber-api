@@ -1,4 +1,4 @@
-import { PasswordFormatIncorretly } from "../../errors/password-format-incorretly"
+import { PasswordFormatIncorretly } from "../../domain/errors/password-format-incorretly"
 
 export function formatPassord(passord: string) {
 

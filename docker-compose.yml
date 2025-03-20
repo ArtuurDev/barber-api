@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: bitnami/postgresql:latest
+    container_name: meu-postgres
+    restart: always
+    environment:
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=123
+      - POSTGRESQL_DATABASE=barber-api
+    ports:
+      - '5431:5432'
+

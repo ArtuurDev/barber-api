@@ -23,7 +23,7 @@ describe('Tests an list clients', () => {
 
         expect(result.isRight()).toBe(true)
         expect(clientInMemoryRepository.items).length(3)
-        expect(result.value.clients).toHaveLength(3)
+        expect(result.value).toHaveLength(3)
     })
 
 } )

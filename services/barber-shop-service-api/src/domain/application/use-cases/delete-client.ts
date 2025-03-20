@@ -1,7 +1,9 @@
 import { ClientInMemoryRepository } from "services/barber-shop-service-api/test/repositories/client-in-memory-repository";
-import { Either, left, right } from "../../../core/either";
-import { IdNotExists } from "../../../errors/id-not-exists";
+import { IdNotExists } from "../../errors/id-not-exists";
 import { Client } from "../../enterprise/entities/client";
+import { Either, left, right } from "services/barber-shop-service-api/src/core/either";
+import { Injectable } from "@nestjs/common";
+import { ClientRepository } from "../repositories/client-repositorie";
 
 
 interface DeleteClientsUseCaseRequest {
@@ -10,9 +12,10 @@ interface DeleteClientsUseCaseRequest {
 
 type DeleteClientsUseCaseResponse = Either<IdNotExists, Client>
 
+@Injectable()
 export class DeleteClientsUseCase {
     constructor(
-    private readonly repository: ClientInMemoryRepository
+    private readonly repository: ClientRepository
     ) {}
 
     async execute({id}: DeleteClientsUseCaseRequest): Promise<DeleteClientsUseCaseResponse> {

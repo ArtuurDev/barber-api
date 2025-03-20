@@ -1,9 +1,9 @@
-export class IdNotExists {
+export class CpfFormatIncorretly {
     code: number
     message: string
     constructor(code?:number, message?:string) {
         this.code = code ?? 400
-        this.message = message ?? 'This Id not exists'
+        this.message = message ?? 'CPF inválido'
     }
 
     toJson() {

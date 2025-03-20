@@ -1,11 +1,16 @@
-import { PhoneFormatIncorretly } from "../../../errors/phone-format-incorretly"
-import { Either, left, right } from "../../../core/either"
+import { PhoneFormatIncorretly } from "../../errors/phone-format-incorretly"
 import { Client } from "../../enterprise/entities/client"
 import { ClientRepository } from "../repositories/client-repositorie"
-import { CpfFormatIncorretly } from "../../../errors/cpf-format-incorretly"
-import { PasswordFormatIncorretly } from "../../../errors/password-format-incorretly"
-import { EmailDuplicate } from "../../../errors/email-duplicate"
-import { CpfDuplicate } from "../../../errors/cpf-duplicate"
+import { CpfFormatIncorretly } from "../../errors/cpf-format-incorretly"
+import { PasswordFormatIncorretly } from "../../errors/password-format-incorretly"
+import { EmailDuplicate } from "../../errors/email-duplicate"
+import { CpfDuplicate } from "../../errors/cpf-duplicate"
+import { Injectable } from "@nestjs/common"
+import { formatDate } from "services/barber-shop-service-api/src/core/utils/format-date"
+import { PhoneDuplicate } from "../../errors/phone-duplicate"
+import { Either, left, right } from "services/barber-shop-service-api/src/core/either"
+import { formatCpf } from "services/barber-shop-service-api/src/core/utils/formated-cpf"
+import { formatPhone } from "services/barber-shop-service-api/src/core/utils/formated-phone"
 
 export interface ClientUseCaseRequest {
     name: string
@@ -13,7 +18,7 @@ export interface ClientUseCaseRequest {
     password: string
     phone: string
     cpf: string
-    birthDateAt: Date
+    birthDateAt: string
     createdAt?: Date
     updatedAt?: Date
 }
@@ -23,9 +28,11 @@ Either<PhoneFormatIncorretly |
 CpfFormatIncorretly | 
 EmailDuplicate |
 CpfDuplicate |
+PhoneDuplicate |
 PasswordFormatIncorretly, 
 Client>
 
+@Injectable()
 export class CreateClientUseCase {
     constructor(
     private readonly repository: ClientRepository
@@ -33,47 +40,52 @@ export class CreateClientUseCase {
 
     async execute({birthDateAt,email,name,password,phone,cpf}: ClientUseCaseRequest): Promise<ClientUseCaseResponse> {
 
-        const cpfAlreadyExists = await this.repository.findByCpf(cpf)
+        try {
 
+        const cpfValid = formatCpf(cpf)
+        const phoneValid = formatPhone(phone)
+
+        const cpfAlreadyExists = await this.repository.findByCpf(cpfValid)
         if(cpfAlreadyExists) {
-            return left(new CpfDuplicate())
+            throw new CpfFormatIncorretly()
         }
 
         const emailAlreadyExists = await this.repository.findByEmail(email)
-
         if(emailAlreadyExists) {
-            return left(new EmailDuplicate())
+            throw new EmailDuplicate()
         }
 
-        try {
+        const phoneAlreadyExists = await this.repository.findByPhone(phoneValid)
+        if(phoneAlreadyExists) {
+            throw new PhoneDuplicate()
+        }
 
-            const client = Client.create({
-                name,
-                email,
-                password,
-                phone,
-                birthDateAt,
-                cpf
-            })
+        const client = Client.create({
+            name,
+            email,
+            password,
+            phone,
+            birthDateAt: formatDate(birthDateAt),
+            cpf
+        })
 
-            await this.repository.create(client)
+        await this.repository.create(client)
 
-            return right(
-                client
-            )
+        return right(
+            client
+        )
+
         }
         catch(err) {
             
-            if(err instanceof CpfFormatIncorretly) {
-                return left(new CpfFormatIncorretly())
-            }
-
-            if(err instanceof PasswordFormatIncorretly) {
-                return left(new PasswordFormatIncorretly())
-            }
-
-            if(err instanceof PhoneFormatIncorretly) {
-                return left(new PhoneFormatIncorretly())
+            if(
+                err instanceof CpfFormatIncorretly || 
+                err instanceof PhoneFormatIncorretly ||
+                err instanceof CpfDuplicate || 
+                err instanceof EmailDuplicate ||
+                err instanceof PhoneDuplicate
+            ) {
+                return left(err)
             }
             
             return left(err)

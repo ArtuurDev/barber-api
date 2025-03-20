@@ -4,11 +4,11 @@ import { Optional } from "../../../core/types/optional"
 import { formatEmail } from "../../../core/utils/email-formated"
 import { formatCpf } from "../../../core/utils/formated-cpf"
 import { formatPassord } from "../../../core/utils/formated-passord"
-import { formatPhone } from "../../../core/utils/formated-phone"
-import { EmailFormatIncorretly } from "../../../errors/email-format-incorretly"
-import { PasswordFormatIncorretly } from "../../../errors/password-format-incorretly"
-import { PhoneFormatIncorretly } from "../../../errors/phone-format-incorretly"
+import { EmailFormatIncorretly } from "../../errors/email-format-incorretly"
+import { PasswordFormatIncorretly } from "../../errors/password-format-incorretly"
+import { PhoneFormatIncorretly } from "../../errors/phone-format-incorretly"
 import { UpdateClientUseCaseRequest } from "../../application/use-cases/update-client"
+import { formatPhone } from "services/barber-shop-service-api/src/core/utils/formated-phone"
 
 export interface ClienteProps {
     name: string

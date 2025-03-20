@@ -21,22 +21,39 @@ export class ClientInMemoryRepository implements ClientRepository{
         return client
     }
 
-    async findByEmail(email: string): Promise<Client | undefined> {
+    async findByEmail(email: string): Promise<Client | null> {
         
-        const isValidatedCpf = this.items.find(item => item.email === email) 
-        return isValidatedCpf
+        const client = this.items.find(item => item.email === email) 
+        if(!client) {
+            return null
+        }
+        return client
 
     }
 
-    async findByCpf(cpf: string): Promise<Client | undefined> {
+    async findByPhone(phone: string): Promise<Client | null> {
         
-        const isValidatedCpf = this.items.find(item => item.cpf === cpf) 
-        return isValidatedCpf
+        const client = this.items.find(item => item.phone === phone)
+
+        if(!client) {
+            return null
+        }
+
+        return client
     }
 
-    async save(data: Client, id: string): Promise<Client | undefined> {
+    async findByCpf(cpf: string): Promise<Client | null> {
         
-        const index = this.items.findIndex(item => item._id.toValue === id) 
+        const client = this.items.find(item => item.cpf === cpf) 
+        if(!client) {
+            return null
+        }
+        return client
+    }
+
+    async save(data: Client) {
+        
+        const index = this.items.findIndex(item => item._id.toValue === data._id.toValue) 
         if(index === -1) {
             return undefined
         } 
@@ -45,7 +62,7 @@ export class ClientInMemoryRepository implements ClientRepository{
 
     }
 
-    async delete(id: string): Promise<Client | undefined> {
+    async delete(id: string): Promise<any> {
         
         const index = this.items.findIndex(item => item._id.toValue === id)
 

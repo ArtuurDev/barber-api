@@ -5,7 +5,7 @@ export class CpfDuplicate  {
 
     constructor(message?:string, code?:number) {
         this.code = code ?? 400
-        this.message = message ?? 'This CPF already exists'
+        this.message = message ?? 'CPF inválido'
     } 
     toJson() {
         return {
