@@ -11,9 +11,11 @@ export interface ClienteProps {
     name: string
     email: string
     password: string
+    attachments: string[] | []
     cpf: string
     phone: string
     birthDateAt: Date
+    appointments_id: string[] | []
     createdAt: Date
     updatedAt?: Date
 
