@@ -1,4 +1,3 @@
-import { ClientInMemoryRepository } from "services/barber-shop-service-api/test/repositories/client-in-memory-repository";
 import { IdNotExists } from "../../errors/id-not-exists";
 import { Client } from "../../enterprise/entities/client";
 import { Either, left, right } from "services/barber-shop-service-api/src/core/either";

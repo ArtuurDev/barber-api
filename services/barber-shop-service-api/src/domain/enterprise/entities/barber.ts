@@ -1,5 +1,3 @@
-import { Appoitments } from "./appointments"
-import { Services } from "./services"
 
 export interface BarberPorps {
     name: string
@@ -8,8 +6,8 @@ export interface BarberPorps {
     images?: string[]
     active: boolean
     description?: string
-    appointments_id: Appoitments[]
-    services_id: Services[]
+    appointments_id: string[]
+    services_id: string[]
 }
 
 export class Barber {

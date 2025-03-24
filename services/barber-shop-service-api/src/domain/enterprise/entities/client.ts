@@ -4,10 +4,7 @@ import { Optional } from "../../../core/types/optional"
 import { formatEmail } from "../../../core/utils/email-formated"
 import { formatCpf } from "../../../core/utils/formated-cpf"
 import { formatPassord } from "../../../core/utils/formated-passord"
-import { EmailFormatIncorretly } from "../../errors/email-format-incorretly"
-import { PasswordFormatIncorretly } from "../../errors/password-format-incorretly"
 import { PhoneFormatIncorretly } from "../../errors/phone-format-incorretly"
-import { UpdateClientUseCaseRequest } from "../../application/use-cases/update-client"
 import { formatPhone } from "services/barber-shop-service-api/src/core/utils/formated-phone"
 
 export interface ClienteProps {
@@ -39,46 +36,6 @@ export class Client extends Entity<ClienteProps> {
                 updatedAt: props.updatedAt
             }, id ?? new UniqueEntityId())
             return client
-    }
-
-
-    static update(client: ClienteProps, updatedClientProps: Partial<UpdateClientUseCaseRequest>, clientId: string) {
-
-        const {email,name,password,phone} = updatedClientProps
-
-        if(email) {
-            if(!formatEmail(email)) {
-                throw new EmailFormatIncorretly()
-            }
-        }
-
-        if(password) {
-            if(!formatPassord(password)) {
-                throw new PasswordFormatIncorretly()
-            }
-        }
-
-        if(phone) {
-            if(!formatPhone(phone)) {
-                throw new PhoneFormatIncorretly()
-            }
-        }
-
-        const clientUpdated = new Client({
-            name: client.name,
-            cpf: client.cpf,
-            email: client.email,
-            birthDateAt: client.birthDateAt,
-            phone: client.phone,
-            password: client.password,
-            createdAt: client.createdAt,
-            updatedAt: new Date(),
-            ...updatedClientProps
-        }, 
-        new UniqueEntityId(clientId)
-    )
-        return clientUpdated
-
     }
 
     get phone() {
