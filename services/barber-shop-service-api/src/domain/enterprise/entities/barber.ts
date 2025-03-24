@@ -3,10 +3,10 @@ export interface BarberPorps {
     name: string
     email: string
     phone: string
-    images?: string[]
+    Attachments: string[] | []
     active: boolean
     description?: string
-    appointments_id: string[]
+    appointments_id: string[] | []
     services_id: string[]
 }
 
