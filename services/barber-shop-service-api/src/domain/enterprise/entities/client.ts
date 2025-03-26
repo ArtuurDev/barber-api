@@ -1,4 +1,4 @@
-import { Entity } from "../../../core/entitys/entity"
+import { AggregateRoot } from "services/barber-shop-service-api/src/core/entitys/agregate-root"
 import { UniqueEntityId } from "../../../core/entitys/unique-entity-id"
 import { Optional } from "../../../core/types/optional"
 import { formatEmail } from "../../../core/utils/email-formated"
@@ -6,30 +6,33 @@ import { formatCpf } from "../../../core/utils/formated-cpf"
 import { formatPassord } from "../../../core/utils/formated-passord"
 import { PhoneFormatIncorretly } from "../../errors/phone-format-incorretly"
 import { formatPhone } from "services/barber-shop-service-api/src/core/utils/formated-phone"
+import { ClientAttachments } from "./client-attachments"
 
 export interface ClienteProps {
     name: string
     email: string
     password: string
-    attachments: string[] | []
+    attachments: ClientAttachments[]
     cpf: string
     phone: string
     birthDateAt: Date
-    appointments_id: string[] | []
+    appointments_id: string[]
     createdAt: Date
     updatedAt?: Date
 
 }
-export class Client extends Entity<ClienteProps> {
+export class Client extends AggregateRoot<ClienteProps> {
 
     private constructor(props: ClienteProps, id?: UniqueEntityId) {
         super(props, id)
     }
 
-    static create(props: Optional<ClienteProps, 'createdAt' | 'updatedAt'>, id?: UniqueEntityId ) {
+    static create(props: Optional<ClienteProps, 'createdAt' | 'updatedAt' | 'attachments' | 'appointments_id'>, id?: UniqueEntityId ) {
 
         const client = new Client({
                 ...props,
+                appointments_id: props.appointments_id ?? [],
+                attachments: props.attachments ?? [],
                 password: formatPassord(props.password),
                 email: formatEmail(props.email),
                 cpf: formatCpf(props.cpf),
@@ -60,6 +63,14 @@ export class Client extends Entity<ClienteProps> {
 
     get password() {
         return this.props.password
+    }
+
+    get attachments() {
+        return this.props.attachments
+    }
+
+    set attachments(attachments: ClientAttachments[]) {
+        this.props.attachments = attachments
     }
 
     get name() {

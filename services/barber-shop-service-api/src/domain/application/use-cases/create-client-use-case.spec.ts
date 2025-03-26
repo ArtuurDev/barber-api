@@ -25,7 +25,8 @@ describe('Tests related to creating a client and value objects of Client', () =>
             password: '1234Am@',
             cpf: '622.408.473-44',
             phone: '88996036330',
-            birthDateAt: "2006-02-24"
+            birthDateAt: "2006-02-24",
+            attachmentsIds: []
         })
 
         const result2 = await sut.execute({
@@ -38,7 +39,7 @@ describe('Tests related to creating a client and value objects of Client', () =>
         })
 
         expect(result2.isLeft()).toBe(true)
-        expect(result2.value).toBeInstanceOf(CpfDuplicate)
+        expect(result2.value).toBeInstanceOf(CpfFormatIncorretly)
     })
 
     it('Should not be possible to register a customer with a duplicate phone', async () => {
@@ -94,7 +95,8 @@ describe('Tests related to creating a client and value objects of Client', () =>
             password: '1234Am@',
             cpf: '622.408.473-44',
             phone: '88996036330',
-            birthDateAt: "2006-02-24"
+            birthDateAt: "2006-02-24",
+            attachmentsIds: ['1']
         })
         console.log(result.value)
         expect(result.isRight()).toBe(true)

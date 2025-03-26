@@ -11,12 +11,15 @@ import { PhoneDuplicate } from "../../errors/phone-duplicate"
 import { Either, left, right } from "services/barber-shop-service-api/src/core/either"
 import { formatCpf } from "services/barber-shop-service-api/src/core/utils/formated-cpf"
 import { formatPhone } from "services/barber-shop-service-api/src/core/utils/formated-phone"
+import { ClientAttachments } from "../../enterprise/entities/client-attachments"
+import { UniqueEntityId } from "services/barber-shop-service-api/src/core/entitys/unique-entity-id"
 
 export interface ClientUseCaseRequest {
     name: string
     email: string
     password: string
     phone: string
+    attachmentsIds?: string[] 
     cpf: string
     birthDateAt: string
     createdAt?: Date
@@ -38,7 +41,7 @@ export class CreateClientUseCase {
     private readonly repository: ClientRepository
     ) {}
 
-    async execute({birthDateAt,email,name,password,phone,cpf}: ClientUseCaseRequest): Promise<ClientUseCaseResponse> {
+    async execute({birthDateAt,email,name,password,phone,cpf, attachmentsIds}: ClientUseCaseRequest): Promise<ClientUseCaseResponse> {
 
         try {
 
@@ -66,8 +69,19 @@ export class CreateClientUseCase {
             password,
             phone,
             birthDateAt: formatDate(birthDateAt),
-            cpf
+            cpf,
         })
+
+        if(attachmentsIds) {
+            const attachments = attachmentsIds.map(atachment => {
+                return ClientAttachments.create({
+                    attachmentId: new UniqueEntityId(atachment),
+                    clientId: new UniqueEntityId(client._id.toValue)
+                })
+            })
+    
+            client.attachments = attachments
+        }
 
         await this.repository.create(client)
 
