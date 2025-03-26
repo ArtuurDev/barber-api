@@ -30,7 +30,7 @@ Arquitetura: DDD e Clean Architecture
 
 Container: Docker 
 
-Mensageria: (Redis) – Implementação de filas e eventos de domínio
+Mensageria: a definir – Implementação de filas e eventos de domínio
 
 Autenticação e Autorização: JWT / RBAC
 
