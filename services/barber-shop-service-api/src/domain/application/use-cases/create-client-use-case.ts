@@ -13,6 +13,7 @@ import { formatCpf } from "services/barber-shop-service-api/src/core/utils/forma
 import { formatPhone } from "services/barber-shop-service-api/src/core/utils/formated-phone"
 import { ClientAttachments } from "../../enterprise/entities/client-attachments"
 import { UniqueEntityId } from "services/barber-shop-service-api/src/core/entitys/unique-entity-id"
+import { ClientAttachmentlist } from "../../enterprise/entities/client-attachment-list"
 
 export interface ClientUseCaseRequest {
     name: string
@@ -80,7 +81,7 @@ export class CreateClientUseCase {
                 })
             })
     
-            client.attachments = attachments
+            client.attachments = new ClientAttachmentlist(attachments)
         }
 
         await this.repository.create(client)
