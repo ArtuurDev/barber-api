@@ -98,7 +98,7 @@ describe('Tests related to creating a client and value objects of Client', () =>
             birthDateAt: "2006-02-24",
             attachmentsIds: ['1']
         })
-        console.log(result.value)
+        console.log(JSON.stringify(result.value, null, 2))
         expect(result.isRight()).toBe(true)
         expect(inMemoryClientRepository.items).length(1)
     })
