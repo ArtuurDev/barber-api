@@ -4,7 +4,7 @@ import { makeClient } from "services/barber-shop-service-api/test/factories/make
 import { ClientRepository } from "../../../application/repositories/client-repositorie";
 import { ClientInMemoryRepository } from "services/barber-shop-service-api/test/repositories/client-in-memory-repository";
 
-describe('on answer Created', () => {
+describe('on client Created', () => {
 
     it('shoul send a notification when an client is created', () => {
         const sub = new OnClientCreated()
