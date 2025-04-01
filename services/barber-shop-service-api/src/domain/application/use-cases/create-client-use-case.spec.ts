@@ -1,6 +1,5 @@
 import { ClientInMemoryRepository } from "services/barber-shop-service-api/test/repositories/client-in-memory-repository"
 import { CreateClientUseCase } from "./create-client-use-case"
-import { CpfDuplicate } from "../../errors/cpf-duplicate"
 import { PhoneDuplicate } from "../../errors/phone-duplicate"
 import { EmailDuplicate } from "../../errors/email-duplicate"
 import { CpfFormatIncorretly } from "../../errors/cpf-format-incorretly"
@@ -98,7 +97,6 @@ describe('Tests related to creating a client and value objects of Client', () =>
             birthDateAt: "2006-02-24",
             attachmentsIds: ['1']
         })
-        console.log(JSON.stringify(result.value, null, 2))
         expect(result.isRight()).toBe(true)
         expect(inMemoryClientRepository.items).length(1)
     })
