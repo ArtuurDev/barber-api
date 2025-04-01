@@ -6,13 +6,14 @@ import { formatCpf } from "../../../core/utils/formated-cpf"
 import { formatPassord } from "../../../core/utils/formated-passord"
 import { PhoneFormatIncorretly } from "../../errors/phone-format-incorretly"
 import { formatPhone } from "services/barber-shop-service-api/src/core/utils/formated-phone"
-import { ClientAttachments } from "./client-attachments"
+import { ClientAttachmentlist } from "./client-attachment-list"
+import { ClientCreatedEvent } from "../events/client-created"
 
 export interface ClienteProps {
     name: string
     email: string
     password: string
-    attachments: ClientAttachments[]
+    attachments: ClientAttachmentlist
     cpf: string
     phone: string
     birthDateAt: Date
@@ -32,7 +33,7 @@ export class Client extends AggregateRoot<ClienteProps> {
         const client = new Client({
                 ...props,
                 appointments_id: props.appointments_id ?? [],
-                attachments: props.attachments ?? [],
+                attachments: props.attachments ?? new ClientAttachmentlist(),
                 password: formatPassord(props.password),
                 email: formatEmail(props.email),
                 cpf: formatCpf(props.cpf),
@@ -40,6 +41,13 @@ export class Client extends AggregateRoot<ClienteProps> {
                 createdAt: props.createdAt ?? new Date(),
                 updatedAt: props.updatedAt
             }, id ?? new UniqueEntityId())
+
+            const isNewClient = !id
+
+            if(isNewClient) {
+                client.addDomainEvent(new ClientCreatedEvent(client))
+            }
+
             return client
     }
 
@@ -69,7 +77,7 @@ export class Client extends AggregateRoot<ClienteProps> {
         return this.props.attachments
     }
 
-    set attachments(attachments: ClientAttachments[]) {
+    set attachments(attachments: ClientAttachmentlist) {
         this.props.attachments = attachments
     }
 
