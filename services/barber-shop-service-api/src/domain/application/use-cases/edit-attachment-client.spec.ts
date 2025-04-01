@@ -40,9 +40,7 @@ describe('Tests an list clients', () => {
             clientId: client._id.toValue
         })
 
-        console.log(JSON.stringify(result.value.attachments, null, 2))
         expect(clientInMemoryRepository.items[0].attachments.currentItems).toHaveLength(3)
-        console.log(clientInMemoryRepository.items[0].attachments.getRemovedItems())
     })
 
 } )
