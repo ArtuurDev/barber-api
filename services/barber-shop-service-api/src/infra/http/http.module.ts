@@ -7,7 +7,7 @@ import { CreateClientUseCase } from "../../domain/application/use-cases/create-c
 import { GetClientsController } from "./controllers/clients/list-clients-controller";
 import { GetClientsUseCase } from "../../domain/application/use-cases/get-clients";
 import { UpdateClientController } from "./controllers/clients/update-clients.controller";
-import { UpdateClientUseCase } from "../../domain/application/use-cases/update-client";
+import { UpdateClientUseCase } from "../../domain/application/use-cases/edit-attachment-client";
 import { DeleteClientController } from "./controllers/clients/delete-client.controller";
 import { DeleteClientsUseCase } from "../../domain/application/use-cases/delete-client";
 

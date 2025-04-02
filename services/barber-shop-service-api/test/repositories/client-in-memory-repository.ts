@@ -1,3 +1,4 @@
+import { DomainEvents } from "services/barber-shop-service-api/src/core/events/domain-events"
 import { ClientRepository } from "../../src/domain/application/repositories/client-repositorie"
 import { Client } from "../../src/domain/enterprise/entities/client"
 
@@ -7,7 +8,8 @@ export class ClientInMemoryRepository implements ClientRepository{
 
     async create(client: Client): Promise<any>  {
     
-        return this.items.push(client)
+        this.items.push(client)
+        DomainEvents.dispatchEventsForAggregate(client._id)
     }
 
     async find(): Promise<Client[] | []> {
@@ -57,6 +59,8 @@ export class ClientInMemoryRepository implements ClientRepository{
         if(index === -1) {
             return undefined
         } 
+
+        DomainEvents.dispatchEventsForAggregate(data._id)
 
         return this.items[index] = data
 
