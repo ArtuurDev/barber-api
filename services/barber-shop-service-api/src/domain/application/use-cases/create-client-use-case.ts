@@ -69,7 +69,7 @@ export class CreateClientUseCase {
             email,
             password,
             phone,
-            birthDateAt: formatDate(birthDateAt),
+            birthDateAt: new Date(birthDateAt),
             cpf,
         })
 

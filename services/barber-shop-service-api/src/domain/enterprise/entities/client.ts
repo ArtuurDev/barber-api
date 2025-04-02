@@ -47,7 +47,7 @@ export class Client extends AggregateRoot<ClienteProps> {
             if(isNewClient) {
                 client.addDomainEvent(new ClientCreatedEvent(client))
             }
-
+            console.log(client)
             return client
     }
 

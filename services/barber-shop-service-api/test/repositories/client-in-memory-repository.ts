@@ -70,9 +70,9 @@ export class ClientInMemoryRepository implements ClientRepository{
         
         const index = this.items.findIndex(item => item._id.toValue === id)
 
-        const itemRemoved = this.items.splice(index, 1)
+        this.items.splice(index, 1)
         
-        return itemRemoved[0]
+
 
     }
 }
