@@ -13,11 +13,12 @@ describe('on client Created', () => {
     beforeEach(() => {
     inMemoryNotificationRepository = new InMemoryNotificationRepository()
     sut = new SendNotificationUseCase(inMemoryNotificationRepository)
-    new OnClientCreated(sut)
 
     })
 
     it('shoul send a notification when an client is created', async () => {
+        new OnClientCreated(sut)
+
         const client = makeClient()
         const repository = new ClientInMemoryRepository()
         const sendNotificationUseCaseSpy = vi.spyOn(sut, 'execute')
@@ -25,6 +26,7 @@ describe('on client Created', () => {
         await waitFor(() => {
             expect(sendNotificationUseCaseSpy).toHaveBeenCalled()
         })
+        // os logs que vão aparecer são pq eu tava vendo se o markedAgregate tinha sido populado
     })
 
 })
