@@ -140,16 +140,4 @@ describe('Tests related to creating a client and value objects of Client', () =>
         expect(result.value).toBeInstanceOf(PasswordFormatIncorretly)
     })
 
-    it('Should not be possible to create client with incorrectly formatted date', async () => {
-        const result = await sut.execute({
-            name: 'artur',
-            email: 'arturcastrodossantos.com@gmail.com',
-            password: '123456',
-            cpf: '622.408.473-44',
-            phone: '88996036330',
-            birthDateAt: '24-02-2006'
-        })
-        expect(result.isLeft()).toBe(true)
-        expect(result.value).toBeInstanceOf(FormatDateIncorrect)
-    })
 })

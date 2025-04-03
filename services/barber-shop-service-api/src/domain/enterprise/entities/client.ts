@@ -47,7 +47,6 @@ export class Client extends AggregateRoot<ClienteProps> {
             if(isNewClient) {
                 client.addDomainEvent(new ClientCreatedEvent(client))
             }
-            console.log(client)
             return client
     }
 
@@ -87,6 +86,12 @@ export class Client extends AggregateRoot<ClienteProps> {
 
     get email() {
         return this.props.email
+    }
+
+    set email(email: string) {
+        const emailIsValid = formatEmail(email)
+        this.props.email = emailIsValid
+        this.props.updatedAt = new Date()
     }
 
     get birthDateAt() {

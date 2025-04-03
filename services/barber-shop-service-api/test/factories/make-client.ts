@@ -12,7 +12,7 @@ export function makeClient(override: Partial<Client> = {}, id?: UniqueEntityId) 
         birthDateAt: new Date(),
         ...override
         
-    })
+    }, id)
     
     return client
 

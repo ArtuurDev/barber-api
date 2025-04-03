@@ -30,7 +30,6 @@ export class ClientInMemoryRepository implements ClientRepository{
             return null
         }
         return client
-
     }
 
     async findByPhone(phone: string): Promise<Client | null> {
@@ -60,10 +59,7 @@ export class ClientInMemoryRepository implements ClientRepository{
             return undefined
         } 
 
-        DomainEvents.dispatchEventsForAggregate(data._id)
-
         return this.items[index] = data
-
     }
 
     async delete(id: string): Promise<any> {
@@ -71,8 +67,5 @@ export class ClientInMemoryRepository implements ClientRepository{
         const index = this.items.findIndex(item => item._id.toValue === id)
 
         this.items.splice(index, 1)
-        
-
-
     }
 }
