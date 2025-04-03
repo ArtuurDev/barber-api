@@ -24,13 +24,11 @@ export class DeleteClientsUseCase {
             return left(new IdNotExists())
         }
 
-        const removed = await this.repository.delete(id)
+        await this.repository.delete(id)
 
-        if(!removed) {
-            return left(new Error('Internal Server'))
-        }
-
-        return right(removed)
+        return right({
+            
+        })
 
     }
 

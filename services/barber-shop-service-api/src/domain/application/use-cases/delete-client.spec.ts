@@ -28,7 +28,6 @@ describe('tests related to the use case of deleting a client', () => {
         const result = await sut.execute({
             id: client._id.toValue
         })
-
         expect(result.isRight()).toBe(true)
         expect(clientInMemoryRepository.items).toHaveLength(0)
     })
