@@ -1,6 +1,5 @@
 import { left, right } from "services/barber-shop-service-api/src/core/either";
 import { ClientRepository } from "../repositories/client-repositorie";
-import { EmailFormatIncorretly } from "../../errors/email-format-incorretly";
 import { Injectable } from "@nestjs/common";
 import { AuthenticateError } from "../../errors/authenticate";
 import { PasswordHashRepository } from "../repositories/password-hash-repository";
