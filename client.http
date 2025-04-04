@@ -1,32 +1,32 @@
 // criar clientes
-POST http://localhost:3000/clients/create
+POST http://localhost:3000/clients
 Content-Type: application/json
 
 {
   "name": "Artur",
-  "email": "arturcastrodossantos.com@gmail.commmm",
+  "email": "arturcastrodossantos.com@gmail.com",
   "password": "123456Am@",
   "phone": "(88) 996036332",
-  "cpf": "477.341.170-82",
+  "cpf": "161.682.571-52",
   "birthDateAt": "2006-02-24"
 }
 
-###
-//listar clientes
-GET http://localhost:3000/clients/clients
-Content-Type: application/json
+### 
+//Authenticate 
 
-
-###
-// atualizar clientes
-PUT http://localhost:3000/clients/377cb1e3-c0f1-4a84-aaea-9c4eb38f8d36
+POST http://localhost:3000/clients/authenticate
 Content-Type: application/json
 
 {
-  "name": "Artur atualizado",
-  "password": "m96036330M@",
-  "email": "arturcastrodossantos.com@gmail.com"
+  "email": "arturcastrodossantos.com@gmail.com",
+  "password": "123456Am@"
 }
+
+
+###
+//listar clientes
+GET http://localhost:3000/clients
+Content-Type: application/json
 
 ###
 // deletar clientes
