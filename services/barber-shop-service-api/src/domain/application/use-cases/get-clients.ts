@@ -17,7 +17,9 @@ export class GetClientsUseCase {
         if(!clients) {
             return left(new Error())
         }
-        return right(clients)
+        return right({
+            clients
+        })
     }
 
 }
