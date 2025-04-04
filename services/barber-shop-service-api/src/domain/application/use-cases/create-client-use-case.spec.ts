@@ -5,16 +5,19 @@ import { EmailDuplicate } from "../../errors/email-duplicate"
 import { CpfFormatIncorretly } from "../../errors/cpf-format-incorretly"
 import { PhoneFormatIncorretly } from "../../errors/phone-format-incorretly"
 import { PasswordFormatIncorretly } from "../../errors/password-format-incorretly"
-import { FormatDateIncorrect } from "../../errors/format-date-incorrect"
 import { beforeEach, describe, expect, it } from "vitest"
+import { PasswordHashRepository } from "../repositories/password-hash-repository"
+import { PasswordHash } from "services/barber-shop-service-api/src/infra/database/repositories/password-hash-repository"
 
 describe('Tests related to creating a client and value objects of Client', () => {
     let inMemoryClientRepository: ClientInMemoryRepository
     let sut: CreateClientUseCase
+    let passordHash: PasswordHash
 
     beforeEach(() => {
         inMemoryClientRepository = new ClientInMemoryRepository()
-        sut = new CreateClientUseCase(inMemoryClientRepository)
+        passordHash = new PasswordHash()
+        sut = new CreateClientUseCase(inMemoryClientRepository, passordHash)
     })
 
     it('Should not be possible to register a customer with a duplicate CPF', async () => {
