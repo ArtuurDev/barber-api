@@ -34,7 +34,6 @@ export class Client extends AggregateRoot<ClienteProps> {
                 ...props,
                 appointments_id: props.appointments_id ?? [],
                 attachments: props.attachments ?? new ClientAttachmentlist(),
-                password: formatPassord(props.password),
                 email: formatEmail(props.email),
                 cpf: formatCpf(props.cpf),
                 phone: formatPhone(props.phone),
