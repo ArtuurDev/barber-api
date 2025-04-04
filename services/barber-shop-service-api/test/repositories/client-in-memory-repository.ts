@@ -1,8 +1,17 @@
 import { DomainEvents } from "services/barber-shop-service-api/src/core/events/domain-events"
 import { ClientRepository } from "../../src/domain/application/repositories/client-repositorie"
 import { Client } from "../../src/domain/enterprise/entities/client"
+import { Client as PrismaClient } from "@prisma/client";
 
 export class ClientInMemoryRepository implements ClientRepository{
+    async authenticate(email: string): Promise<PrismaClient | null> {
+        throw new Error("Method not implemented.")
+    }
+    
+    findByPassword(password: string, id: string): Promise<Client | null> {
+        throw new Error("Method not implemented.")
+    }
+
 
     public items: Client[] = [] 
 
