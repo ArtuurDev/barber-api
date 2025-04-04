@@ -6,7 +6,6 @@ import { PasswordFormatIncorretly } from "../../errors/password-format-incorretl
 import { EmailDuplicate } from "../../errors/email-duplicate"
 import { CpfDuplicate } from "../../errors/cpf-duplicate"
 import { Injectable } from "@nestjs/common"
-import { formatDate } from "services/barber-shop-service-api/src/core/utils/format-date"
 import { PhoneDuplicate } from "../../errors/phone-duplicate"
 import { Either, left, right } from "services/barber-shop-service-api/src/core/either"
 import { formatCpf } from "services/barber-shop-service-api/src/core/utils/formated-cpf"
@@ -14,6 +13,8 @@ import { formatPhone } from "services/barber-shop-service-api/src/core/utils/for
 import { ClientAttachments } from "../../enterprise/entities/client-attachments"
 import { UniqueEntityId } from "services/barber-shop-service-api/src/core/entitys/unique-entity-id"
 import { ClientAttachmentlist } from "../../enterprise/entities/client-attachment-list"
+import { PasswordHashRepository } from "../repositories/password-hash-repository"
+import { formatPassord } from "services/barber-shop-service-api/src/core/utils/formated-passord"
 
 export interface ClientUseCaseRequest {
     name: string
@@ -39,7 +40,8 @@ Client>
 @Injectable()
 export class CreateClientUseCase {
     constructor(
-    private readonly repository: ClientRepository
+    private readonly repository: ClientRepository,
+    private readonly passwordHashRepository: PasswordHashRepository
     ) {}
 
     async execute({birthDateAt,email,name,password,phone,cpf, attachmentsIds}: ClientUseCaseRequest): Promise<ClientUseCaseResponse> {
@@ -48,6 +50,11 @@ export class CreateClientUseCase {
 
         const cpfValid = formatCpf(cpf)
         const phoneValid = formatPhone(phone)
+        const passwordIsValid = formatPassord(password)
+
+        if(!passwordIsValid) {
+            throw new PasswordFormatIncorretly()
+        }
 
         const cpfAlreadyExists = await this.repository.findByCpf(cpfValid)
         if(cpfAlreadyExists) {
@@ -64,10 +71,12 @@ export class CreateClientUseCase {
             throw new PhoneDuplicate()
         }
 
+        const passordHash = await this.passwordHashRepository.hash(password)
+
         const client = Client.create({
             name,
             email,
-            password,
+            password: passordHash,
             phone,
             birthDateAt: new Date(birthDateAt),
             cpf,
