@@ -14,7 +14,6 @@ export class DomainEvents {
     if (!aggregateFound) {
       this.markedAggregates.push(aggregate)
     }
-    console.log(this.markedAggregates)
   }
 
   private static dispatchAggregateEvents(aggregate: AggregateRoot<any>) {
