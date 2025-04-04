@@ -3,8 +3,8 @@ import { EditEmailUseCase } from "./edit-email-client";
 import { ClientInMemoryRepository } from "services/barber-shop-service-api/test/repositories/client-in-memory-repository";
 import { makeClient } from "services/barber-shop-service-api/test/factories/make-client";
 import { UniqueEntityId } from "services/barber-shop-service-api/src/core/entitys/unique-entity-id";
-import { EmailFormatIncorretly } from "../../errors/email-format-incorretly";
 import { ThisIsYourEmail } from "../../errors/this-is-your-email";
+import { EmailDuplicate } from "../../errors/email-duplicate";
 
 describe('tests related to email editing', () => {
 
@@ -53,7 +53,7 @@ describe('tests related to email editing', () => {
         })
 
         expect(result.isLeft()).toBe(true)
-        expect(result.value).toBeInstanceOf(EmailFormatIncorretly)
+        expect(result.value).toBeInstanceOf(EmailDuplicate)
     })
    
     it('this your email', async () => {
