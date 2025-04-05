@@ -1,7 +1,7 @@
 import { DomainEvents } from "services/barber-shop-service-api/src/core/events/domain-events";
 import { EventHandler } from "services/barber-shop-service-api/src/core/events/event-handler";
-import { ClientCreatedEvent } from "../../../enterprise/events/client-created";
 import { SendNotificationUseCase } from "../use-cases/send-notification";
+import { ClientCreatedEvent } from "../../../clients/events/client-created";
 
 export class OnClientCreated implements EventHandler {
 

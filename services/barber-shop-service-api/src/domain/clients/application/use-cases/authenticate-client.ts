@@ -1,8 +1,8 @@
 import { left, right } from "services/barber-shop-service-api/src/core/either";
 import { ClientRepository } from "../repositories/client-repositorie";
 import { Injectable } from "@nestjs/common";
-import { AuthenticateError } from "../../errors/authenticate";
 import { PasswordHashRepository } from "../repositories/password-hash-repository";
+import { AuthenticateError } from "../../../errors/authenticate";
 
 export interface AuthenticateRequest {
 

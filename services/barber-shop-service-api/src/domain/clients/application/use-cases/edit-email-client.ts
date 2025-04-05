@@ -1,9 +1,10 @@
 import { Either, left, right } from "services/barber-shop-service-api/src/core/either"
 import { ClientRepository } from "../repositories/client-repositorie"
-import { EmailFormatIncorretly } from "../../errors/email-format-incorretly"
-import { ThisIsYourEmail } from "../../errors/this-is-your-email"
-import { EmailDuplicate } from "../../errors/email-duplicate"
-import { IdNotExists } from "../../errors/id-not-exists"
+import { IdNotExists } from "../../../errors/id-not-exists"
+import { EmailFormatIncorretly } from "../../../errors/email-format-incorretly"
+import { ThisIsYourEmail } from "../../../errors/this-is-your-email"
+import { EmailDuplicate } from "../../../errors/email-duplicate"
+
 
 export interface EditEmailUseCaseRequest {
     clientId: string

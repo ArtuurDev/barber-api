@@ -1,7 +1,8 @@
 import { DomainEvents } from "services/barber-shop-service-api/src/core/events/domain-events"
-import { ClientRepository } from "../../src/domain/application/repositories/client-repositorie"
-import { Client } from "../../src/domain/enterprise/entities/client"
+
 import { Client as PrismaClient } from "@prisma/client";
+import { ClientRepository } from "services/barber-shop-service-api/src/domain/clients/application/repositories/client-repositorie";
+import { Client } from "services/barber-shop-service-api/src/domain/clients/enterprise/entities/client";
 
 export class ClientInMemoryRepository implements ClientRepository{
     async authenticate(email: string): Promise<PrismaClient | null> {

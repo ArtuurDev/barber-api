@@ -1,13 +1,13 @@
 import { AggregateRoot } from "services/barber-shop-service-api/src/core/entitys/agregate-root"
-import { UniqueEntityId } from "../../../core/entitys/unique-entity-id"
-import { Optional } from "../../../core/types/optional"
-import { formatEmail } from "../../../core/utils/email-formated"
-import { formatCpf } from "../../../core/utils/formated-cpf"
-import { formatPassord } from "../../../core/utils/formated-passord"
-import { PhoneFormatIncorretly } from "../../errors/phone-format-incorretly"
+
 import { formatPhone } from "services/barber-shop-service-api/src/core/utils/formated-phone"
 import { ClientAttachmentlist } from "./client-attachment-list"
-import { ClientCreatedEvent } from "../events/client-created"
+import { ClientCreatedEvent } from "../../events/client-created"
+import { UniqueEntityId } from "services/barber-shop-service-api/src/core/entitys/unique-entity-id"
+import { Optional } from "@prisma/client/runtime/library"
+import { formatEmail } from "services/barber-shop-service-api/src/core/utils/email-formated"
+import { formatCpf } from "services/barber-shop-service-api/src/core/utils/formated-cpf"
+import { PhoneFormatIncorretly } from "../../../errors/phone-format-incorretly"
 
 export interface ClienteProps {
     name: string

@@ -1,10 +1,10 @@
 import { left, right } from "services/barber-shop-service-api/src/core/either";
 import { ClientRepository } from "../repositories/client-repositorie";
-import { IdNotExists } from "../../errors/id-not-exists";
 import { ClientAttachmentlist } from "../../enterprise/entities/client-attachment-list";
 import { ClientAttachments } from "../../enterprise/entities/client-attachments";
 import { UniqueEntityId } from "services/barber-shop-service-api/src/core/entitys/unique-entity-id";
 import { ClientAttachmentsRepository } from "../repositories/client-attachments-repository";
+import { IdNotExists } from "../../../errors/id-not-exists";
 
 export interface ClientEditAttachmentRequest {
     clientId: string

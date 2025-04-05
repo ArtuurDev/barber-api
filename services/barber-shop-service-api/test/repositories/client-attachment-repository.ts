@@ -1,5 +1,5 @@
-import { ClientAttachmentsRepository } from "services/barber-shop-service-api/src/domain/application/repositories/client-attachments-repository";
-import { ClientAttachments } from "services/barber-shop-service-api/src/domain/enterprise/entities/client-attachments";
+import { ClientAttachmentsRepository } from "services/barber-shop-service-api/src/domain/clients/application/repositories/client-attachments-repository"
+import { ClientAttachments } from "services/barber-shop-service-api/src/domain/clients/enterprise/entities/client-attachments"
 
 export class InMemoryClientAttachmentsRepository implements ClientAttachmentsRepository {
     

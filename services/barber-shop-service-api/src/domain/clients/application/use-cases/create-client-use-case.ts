@@ -1,12 +1,4 @@
-import { PhoneFormatIncorretly } from "../../errors/phone-format-incorretly"
-import { Client } from "../../enterprise/entities/client"
-import { ClientRepository } from "../repositories/client-repositorie"
-import { CpfFormatIncorretly } from "../../errors/cpf-format-incorretly"
-import { PasswordFormatIncorretly } from "../../errors/password-format-incorretly"
-import { EmailDuplicate } from "../../errors/email-duplicate"
-import { CpfDuplicate } from "../../errors/cpf-duplicate"
-import { Injectable } from "@nestjs/common"
-import { PhoneDuplicate } from "../../errors/phone-duplicate"
+
 import { Either, left, right } from "services/barber-shop-service-api/src/core/either"
 import { formatCpf } from "services/barber-shop-service-api/src/core/utils/formated-cpf"
 import { formatPhone } from "services/barber-shop-service-api/src/core/utils/formated-phone"
@@ -15,6 +7,15 @@ import { UniqueEntityId } from "services/barber-shop-service-api/src/core/entity
 import { ClientAttachmentlist } from "../../enterprise/entities/client-attachment-list"
 import { PasswordHashRepository } from "../repositories/password-hash-repository"
 import { formatPassord } from "services/barber-shop-service-api/src/core/utils/formated-passord"
+import { PhoneFormatIncorretly } from "../../../errors/phone-format-incorretly"
+import { CpfFormatIncorretly } from "../../../errors/cpf-format-incorretly"
+import { EmailDuplicate } from "../../../errors/email-duplicate"
+import { CpfDuplicate } from "../../../errors/cpf-duplicate"
+import { PhoneDuplicate } from "../../../errors/phone-duplicate"
+import { PasswordFormatIncorretly } from "../../../errors/password-format-incorretly"
+import { Client } from "../../enterprise/entities/client"
+import { ClientRepository } from "../repositories/client-repositorie"
+import { Injectable } from "@nestjs/common"
 
 export interface ClientUseCaseRequest {
     name: string

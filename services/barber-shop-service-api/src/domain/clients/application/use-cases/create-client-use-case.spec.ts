@@ -1,13 +1,14 @@
 import { ClientInMemoryRepository } from "services/barber-shop-service-api/test/repositories/client-in-memory-repository"
 import { CreateClientUseCase } from "./create-client-use-case"
-import { PhoneDuplicate } from "../../errors/phone-duplicate"
-import { EmailDuplicate } from "../../errors/email-duplicate"
-import { CpfFormatIncorretly } from "../../errors/cpf-format-incorretly"
-import { PhoneFormatIncorretly } from "../../errors/phone-format-incorretly"
-import { PasswordFormatIncorretly } from "../../errors/password-format-incorretly"
+
 import { beforeEach, describe, expect, it } from "vitest"
 import { PasswordHashRepository } from "../repositories/password-hash-repository"
 import { PasswordHash } from "services/barber-shop-service-api/src/infra/database/repositories/password-hash-repository"
+import { CpfFormatIncorretly } from "../../../errors/cpf-format-incorretly"
+import { PhoneDuplicate } from "../../../errors/phone-duplicate"
+import { EmailDuplicate } from "../../../errors/email-duplicate"
+import { PhoneFormatIncorretly } from "../../../errors/phone-format-incorretly"
+import { PasswordFormatIncorretly } from "../../../errors/password-format-incorretly"
 
 describe('Tests related to creating a client and value objects of Client', () => {
     let inMemoryClientRepository: ClientInMemoryRepository

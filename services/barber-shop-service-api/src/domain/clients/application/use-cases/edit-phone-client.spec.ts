@@ -3,9 +3,10 @@ import { EditPhoneUseCase } from "./edit-phone-client";
 import { ClientInMemoryRepository } from "services/barber-shop-service-api/test/repositories/client-in-memory-repository";
 import { makeClient } from "services/barber-shop-service-api/test/factories/make-client";
 import { UniqueEntityId } from "services/barber-shop-service-api/src/core/entitys/unique-entity-id";
-import { PhoneDuplicate } from "../../errors/phone-duplicate";
-import { ThisIsYourPhone } from "../../errors/this-is-your-phone";
-import { IdNotExists } from "../../errors/id-not-exists";
+import { IdNotExists } from "../../../errors/id-not-exists";
+import { PhoneDuplicate } from "../../../errors/phone-duplicate";
+import { ThisIsYourPhone } from "../../../errors/this-is-your-phone";
+
 
 describe('tests related to phone edition', () => {
 
