@@ -16,6 +16,8 @@ import { PasswordFormatIncorretly } from "../../../errors/password-format-incorr
 import { Client } from "../../enterprise/entities/client"
 import { ClientRepository } from "../repositories/client-repositorie"
 import { Injectable } from "@nestjs/common"
+import { formatEmail } from "services/barber-shop-service-api/src/core/utils/email-formated"
+import { EmailFormatIncorretly } from "../../../errors/email-format-incorretly"
 
 export interface ClientUseCaseRequest {
     name: string
@@ -30,12 +32,14 @@ export interface ClientUseCaseRequest {
 }
 
 type ClientUseCaseResponse = 
-Either<PhoneFormatIncorretly | 
+Either<
+PhoneFormatIncorretly | 
 CpfFormatIncorretly | 
 EmailDuplicate |
 CpfDuplicate |
 PhoneDuplicate |
-PasswordFormatIncorretly, 
+PasswordFormatIncorretly |
+EmailFormatIncorretly, 
 Client>
 
 @Injectable()
@@ -49,30 +53,27 @@ export class CreateClientUseCase {
 
         try {
 
-        const cpfValid = formatCpf(cpf)
-        const phoneValid = formatPhone(phone)
-        const passwordIsValid = formatPassord(password)
+        const formattedCpf = formatCpf(cpf)
+        const formattedPhone = formatPhone(phone)
+        const formattedPassword = formatPassord(password)
+        const formattedEmail = formatEmail(email)
 
-        if(!passwordIsValid) {
-            throw new PasswordFormatIncorretly()
-        }
-
-        const cpfAlreadyExists = await this.repository.findByCpf(cpfValid)
+        const cpfAlreadyExists = await this.repository.findByCpf(formattedCpf)
         if(cpfAlreadyExists) {
-            throw new CpfFormatIncorretly()
+            throw new CpfDuplicate("CPF incorreto")
         }
 
-        const emailAlreadyExists = await this.repository.findByEmail(email)
+        const emailAlreadyExists = await this.repository.findByEmail(formattedEmail)
         if(emailAlreadyExists) {
             throw new EmailDuplicate()
         }
 
-        const phoneAlreadyExists = await this.repository.findByPhone(phoneValid)
+        const phoneAlreadyExists = await this.repository.findByPhone(formattedPhone)
         if(phoneAlreadyExists) {
             throw new PhoneDuplicate()
         }
 
-        const passordHash = await this.passwordHashRepository.hash(password)
+        const passordHash = await this.passwordHashRepository.hash(formattedPassword)
 
         const client = Client.create({
             name,
@@ -96,23 +97,12 @@ export class CreateClientUseCase {
 
         await this.repository.create(client)
 
-        return right(
+        return right({
             client
-        )
+        })
 
         }
         catch(err) {
-            
-            if(
-                err instanceof CpfFormatIncorretly || 
-                err instanceof PhoneFormatIncorretly ||
-                err instanceof CpfDuplicate || 
-                err instanceof EmailDuplicate ||
-                err instanceof PhoneDuplicate
-            ) {
-                return left(err)
-            }
-            
             return left(err)
         }
     }
