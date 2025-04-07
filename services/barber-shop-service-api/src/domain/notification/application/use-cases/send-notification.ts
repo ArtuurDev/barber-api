@@ -9,9 +9,9 @@ export interface SendNotificationRequest {
 }
 
 export class SendNotificationUseCase {
-    constructor(private readonly notificationRepository:NotificationRepository ) {
-
-    }
+    constructor(
+    private readonly notificationRepository: NotificationRepository
+    ) {}
 
     async execute({content,recipientId,title}: NotificationProps) {
 
@@ -21,7 +21,11 @@ export class SendNotificationUseCase {
             title            
         })
 
-        return right(notification)
+        await this.notificationRepository.create(notification)
+
+        return right({
+            notification
+        })
 
     }
 
