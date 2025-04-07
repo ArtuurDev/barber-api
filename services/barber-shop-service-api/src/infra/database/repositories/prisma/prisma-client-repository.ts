@@ -1,9 +1,10 @@
-import { ClientRepository } from "services/barber-shop-service-api/src/domain/application/repositories/client-repositorie";
-import { Client } from "services/barber-shop-service-api/src/domain/enterprise/entities/client";
+
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "./prisma.service";
 import { PrismaMapper } from "../mappers/mappers-client";
 import { Client as PrismaClient } from "@prisma/client";
+import { Client } from "services/barber-shop-service-api/src/domain/clients/enterprise/entities/client";
+import { ClientRepository } from "services/barber-shop-service-api/src/domain/clients/application/repositories/client-repositorie";
 
 
 @Injectable()
@@ -22,11 +23,12 @@ export class PrismaClientRepository implements ClientRepository {
         
     }
 
-    async authenticate(email: string): Promise<PrismaClient | null> {
+    async authenticate(email: string, password: string): Promise<PrismaClient | null> {
         
         const client = await this.prisma.client.findFirst({
             where: {
-                email
+                email, 
+                password
             }
         })
 

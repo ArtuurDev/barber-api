@@ -5,10 +5,8 @@ import { PasswordHashRepository } from "../repositories/password-hash-repository
 import { AuthenticateError } from "../../../errors/authenticate";
 
 export interface AuthenticateRequest {
-
     email: string
     password: string
-    
 }
 
 @Injectable()
@@ -21,8 +19,7 @@ export class AuthenticateClientUseCase {
 
     async execute({email, password}: AuthenticateRequest) {
 
-
-        const client = await this.clientRepository.authenticate(email)
+        const client = await this.clientRepository.authenticate(email, password)
 
         if(!client) {
             return left(new AuthenticateError())
