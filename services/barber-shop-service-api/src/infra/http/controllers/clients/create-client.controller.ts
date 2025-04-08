@@ -1,8 +1,8 @@
 import { Body, Controller, Post, Res, UsePipes } from "@nestjs/common";
-import { CreateClientUseCase } from "services/barber-shop-service-api/src/domain/application/use-cases/create-client-use-case";
 import { z } from "zod";
 import { ZodValidationPipe } from "../pipes/zod-validation-pipe";
 import { Response } from "express";
+import { CreateClientUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/create-client-use-case";
 
 const requestClientSchema = z.object({
     name: z.string(),
@@ -15,7 +15,7 @@ const requestClientSchema = z.object({
 
 type ClientRequest = z.infer<typeof requestClientSchema>
 
-@Controller("/clients")
+@Controller('/clients')
 @UsePipes(new ZodValidationPipe(requestClientSchema))
 export class CreateClientController {
 
@@ -23,7 +23,7 @@ export class CreateClientController {
         private readonly createClientUseCase: CreateClientUseCase
     ) {}
 
-    @Post('/create')
+    @Post()
     async handle(@Body() body: ClientRequest, @Res() res: Response) {
 
         const {name,email,password,phone,cpf,birthDateAt} = body

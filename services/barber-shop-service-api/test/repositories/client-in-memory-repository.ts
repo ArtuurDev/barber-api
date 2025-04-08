@@ -1,13 +1,25 @@
-import { ClientRepository } from "../../src/domain/application/repositories/client-repositorie"
-import { Client } from "../../src/domain/enterprise/entities/client"
+import { DomainEvents } from "services/barber-shop-service-api/src/core/events/domain-events"
+
+import { Client as PrismaClient } from "@prisma/client";
+import { ClientRepository } from "services/barber-shop-service-api/src/domain/clients/application/repositories/client-repositorie";
+import { Client } from "services/barber-shop-service-api/src/domain/clients/enterprise/entities/client";
 
 export class ClientInMemoryRepository implements ClientRepository{
+    async authenticate(email: string): Promise<PrismaClient | null> {
+        throw new Error("Method not implemented.")
+    }
+    
+    findByPassword(password: string, id: string): Promise<Client | null> {
+        throw new Error("Method not implemented.")
+    }
+
 
     public items: Client[] = [] 
 
     async create(client: Client): Promise<any>  {
     
-        return this.items.push(client)
+        this.items.push(client)
+        DomainEvents.dispatchEventsForAggregate(client._id)
     }
 
     async find(): Promise<Client[] | []> {
@@ -28,7 +40,6 @@ export class ClientInMemoryRepository implements ClientRepository{
             return null
         }
         return client
-
     }
 
     async findByPhone(phone: string): Promise<Client | null> {
@@ -59,16 +70,12 @@ export class ClientInMemoryRepository implements ClientRepository{
         } 
 
         return this.items[index] = data
-
     }
 
     async delete(id: string): Promise<any> {
         
         const index = this.items.findIndex(item => item._id.toValue === id)
 
-        const itemRemoved = this.items.splice(index, 1)
-        
-        return itemRemoved[0]
-
+        this.items.splice(index, 1)
     }
 }

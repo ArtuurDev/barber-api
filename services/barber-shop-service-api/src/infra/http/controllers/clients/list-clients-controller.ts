@@ -1,7 +1,7 @@
 import { Controller, Get, Res } from "@nestjs/common";
 import { Response } from "express";
-import { GetClientsUseCase } from "services/barber-shop-service-api/src/domain/application/use-cases/get-clients";
 import { GetListClientPresenter } from "../../presenters/get-clients-presenter";
+import { GetClientsUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/get-clients";
 
 @Controller("/clients")
 export class GetClientsController {
@@ -10,16 +10,16 @@ export class GetClientsController {
 
     }
 
-    @Get('clients')
+    @Get()
     async handle(@Res() res: Response) {
 
-        const {value} = await this.listClientsUseCase.execute()
+        const {value, isLeft} = await this.listClientsUseCase.execute()
     
-        if(!value) {
+        if(isLeft()) {
             return res.send(value)
         }
 
-       const clients = value.map(GetListClientPresenter.toHttp)
+       const clients = value.clients.map(GetListClientPresenter.toHttp)
 
        return res.send({
         clients: clients

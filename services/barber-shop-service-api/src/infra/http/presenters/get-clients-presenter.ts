@@ -1,4 +1,4 @@
-import { Client } from "services/barber-shop-service-api/src/domain/enterprise/entities/client";
+import { Client } from "services/barber-shop-service-api/src/domain/clients/enterprise/entities/client";
 
 export class GetListClientPresenter {
     
