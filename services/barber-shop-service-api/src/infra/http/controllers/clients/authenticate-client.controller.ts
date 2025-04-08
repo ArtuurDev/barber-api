@@ -1,9 +1,9 @@
 import { Body, Controller, Post, Res, UsePipes, ValidationPipe } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { AuthenticateClientUseCase } from "services/barber-shop-service-api/src/domain/application/use-cases/authenticate-client";
 import { z } from "zod";
 import { ZodValidationPipe } from "../pipes/zod-validation-pipe";
 import { Response } from "express";
+import { AuthenticateClientUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/authenticate-client";
 
 
 const authenticateRequestSchema = z.object({
@@ -24,7 +24,7 @@ export class AuthenticateClientController {
 
 
     @Post('/authenticate')
-    async execute(@Body() body: requestAuthenticate, @Res() res: Response) {
+    async handle(@Body() body: requestAuthenticate, @Res() res: Response) {
 
         const {email, password} = body
 

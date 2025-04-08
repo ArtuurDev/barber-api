@@ -1,6 +1,6 @@
 import { Prisma, Client as PrismaClient} from "@prisma/client";
 import { UniqueEntityId } from "services/barber-shop-service-api/src/core/entitys/unique-entity-id";
-import { Client, Client as ClientDomain} from "services/barber-shop-service-api/src/domain/enterprise/entities/client";
+import { Client, Client as ClientDomain } from "services/barber-shop-service-api/src/domain/clients/enterprise/entities/client";
 export class PrismaMapper {
 
     static toDomain(client: PrismaClient): ClientDomain {

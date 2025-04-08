@@ -1,18 +1,26 @@
 import { Module } from "@nestjs/common";
 import { DatabaseModule } from "../database/database.module";
 import { CreateClientController } from "./controllers/clients/create-client.controller";
-import { ClientRepository } from "../../domain/application/repositories/client-repositorie";
 import { PrismaClientRepository } from "../database/repositories/prisma/prisma-client-repository";
-import { CreateClientUseCase } from "../../domain/application/use-cases/create-client-use-case";
 import { GetClientsController } from "./controllers/clients/list-clients-controller";
-import { GetClientsUseCase } from "../../domain/application/use-cases/get-clients";
 import { DeleteClientController } from "./controllers/clients/delete-client.controller";
-import { DeleteClientsUseCase } from "../../domain/application/use-cases/delete-client";
 import { AuthModule } from "./auth/auth.module";
 import { AuthenticateClientController } from "./controllers/clients/authenticate-client.controller";
-import { AuthenticateClientUseCase } from "../../domain/application/use-cases/authenticate-client";
-import { PasswordHashRepository } from "../../domain/application/repositories/password-hash-repository";
-import { PasswordHash } from "../database/repositories/password-hash-repository";
+import { PasswordHash } from "../database/repositories/cryptograpy-repository";
+import { CreateClientUseCase } from "../../domain/clients/application/use-cases/create-client-use-case";
+import { GetClientsUseCase } from "../../domain/clients/application/use-cases/get-clients";
+import { DeleteClientsUseCase } from "../../domain/clients/application/use-cases/delete-client";
+import { AuthenticateClientUseCase } from "../../domain/clients/application/use-cases/authenticate-client";
+import { ClientRepository } from "../../domain/clients/application/repositories/client-repositorie";
+import { CryptograpyRepository } from "../../domain/clients/application/cryptograpy/cryptograpy-repository";
+import { UploadController } from "./controllers/clients/upload-attachments.controller";
+import { EditEmailClientController } from "./controllers/clients/edit-email-client.controller";
+import { EditEmailUseCase } from "../../domain/clients/application/use-cases/edit-email-client";
+import { UploadAttachmentsUseCase } from "../../domain/clients/application/use-cases/upload-attachments";
+import { Uploader } from "../../domain/clients/application/storage/uploader.repository";
+import {  StorageR2 } from "../storage/storageR2";
+import { PrismaAttachmentRepository } from "../database/repositories/prisma/prisma-attachments-repositories";
+import { AttachmentRepository } from "../../domain/clients/application/repositories/attachment-repository";
 
 @Module({
     imports: [
@@ -23,7 +31,10 @@ import { PasswordHash } from "../database/repositories/password-hash-repository"
     CreateClientController, 
     GetClientsController, 
     DeleteClientController,
-    AuthenticateClientController
+    AuthenticateClientController,
+    UploadController,
+    EditEmailClientController,
+    UploadController
 ],
     providers: [
         CreateClientUseCase, 
@@ -31,12 +42,23 @@ import { PasswordHash } from "../database/repositories/password-hash-repository"
         DeleteClientsUseCase,
         AuthenticateClientUseCase,
         PasswordHash,
+        EditEmailUseCase,
+        UploadAttachmentsUseCase, 
+        PrismaAttachmentRepository,
+        {
+            provide: AttachmentRepository,
+            useClass: PrismaAttachmentRepository
+        },
+        {
+            provide: Uploader,
+            useClass: StorageR2
+        },
         {
         provide: ClientRepository,
         useClass: PrismaClientRepository
         },
         {
-            provide: PasswordHashRepository,
+            provide: CryptograpyRepository,
             useClass: PasswordHash
         }
     ]

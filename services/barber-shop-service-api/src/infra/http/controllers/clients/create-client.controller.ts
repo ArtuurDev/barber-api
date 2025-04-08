@@ -1,8 +1,8 @@
 import { Body, Controller, Post, Res, UsePipes } from "@nestjs/common";
-import { CreateClientUseCase } from "services/barber-shop-service-api/src/domain/application/use-cases/create-client-use-case";
 import { z } from "zod";
 import { ZodValidationPipe } from "../pipes/zod-validation-pipe";
 import { Response } from "express";
+import { CreateClientUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/create-client-use-case";
 
 const requestClientSchema = z.object({
     name: z.string(),

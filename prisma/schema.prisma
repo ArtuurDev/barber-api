@@ -18,17 +18,19 @@ datasource db {
 enum NivelPermissao {
   CLIENT
   BARBER
+  ADMIN
 }
 
 model Client {
-  id           String   @id @default(uuid())
-  permission   NivelPermissao @default(CLIENT)  
-  name         String
-  email        String   @unique
-  password     String
-  phone        String
-  cpf          String   @unique
-  birthDateAt  DateTime
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt 
+  id                 String           @id @default(uuid())
+  permission         NivelPermissao   @default(CLIENT)  
+  name               String
+  email              String           @unique
+  emailValidated     Boolean          @default(false)
+  password           String
+  phone              String
+  cpf                String           @unique
+  birthDateAt        DateTime
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt 
 }

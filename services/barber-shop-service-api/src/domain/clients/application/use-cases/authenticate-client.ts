@@ -1,8 +1,8 @@
 import { left, right } from "services/barber-shop-service-api/src/core/either";
 import { ClientRepository } from "../repositories/client-repositorie";
 import { Injectable } from "@nestjs/common";
-import { PasswordHashRepository } from "../repositories/password-hash-repository";
 import { AuthenticateError } from "../../../errors/authenticate";
+import { CryptograpyRepository } from "../cryptograpy/cryptograpy-repository";
 
 export interface AuthenticateRequest {
     email: string
@@ -14,12 +14,12 @@ export class AuthenticateClientUseCase {
     
     constructor(
     private readonly clientRepository: ClientRepository,
-    private readonly passwordHashRepository: PasswordHashRepository
+    private readonly passwordHashRepository: CryptograpyRepository
     ) {} 
 
     async execute({email, password}: AuthenticateRequest) {
 
-        const client = await this.clientRepository.authenticate(email, password)
+        const client = await this.clientRepository.authenticate(email)
 
         if(!client) {
             return left(new AuthenticateError())

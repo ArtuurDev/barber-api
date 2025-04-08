@@ -4,6 +4,7 @@ import { IdNotExists } from "../../../errors/id-not-exists"
 import { EmailFormatIncorretly } from "../../../errors/email-format-incorretly"
 import { ThisIsYourEmail } from "../../../errors/this-is-your-email"
 import { EmailDuplicate } from "../../../errors/email-duplicate"
+import { Injectable } from "@nestjs/common"
 
 
 export interface EditEmailUseCaseRequest {
@@ -13,6 +14,7 @@ export interface EditEmailUseCaseRequest {
 
 type EditEmailUseCaseResponse = Either<IdNotExists | EmailFormatIncorretly | ThisIsYourEmail | EmailDuplicate, null>
 
+@Injectable()
 export class EditEmailUseCase {
     
     constructor(
@@ -43,10 +45,8 @@ export class EditEmailUseCase {
         } 
         catch (err) {
             if(err instanceof EmailFormatIncorretly) {
-                console.log(err)
                 return left(err)
             }
-            console.log(err)
             return left(err)
         }
     }

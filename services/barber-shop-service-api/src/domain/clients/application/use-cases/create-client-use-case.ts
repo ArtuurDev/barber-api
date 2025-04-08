@@ -1,11 +1,9 @@
-
 import { Either, left, right } from "services/barber-shop-service-api/src/core/either"
 import { formatCpf } from "services/barber-shop-service-api/src/core/utils/formated-cpf"
 import { formatPhone } from "services/barber-shop-service-api/src/core/utils/formated-phone"
 import { ClientAttachments } from "../../enterprise/entities/client-attachments"
 import { UniqueEntityId } from "services/barber-shop-service-api/src/core/entitys/unique-entity-id"
 import { ClientAttachmentlist } from "../../enterprise/entities/client-attachment-list"
-import { PasswordHashRepository } from "../repositories/password-hash-repository"
 import { formatPassord } from "services/barber-shop-service-api/src/core/utils/formated-passord"
 import { PhoneFormatIncorretly } from "../../../errors/phone-format-incorretly"
 import { CpfFormatIncorretly } from "../../../errors/cpf-format-incorretly"
@@ -18,6 +16,7 @@ import { ClientRepository } from "../repositories/client-repositorie"
 import { Injectable } from "@nestjs/common"
 import { formatEmail } from "services/barber-shop-service-api/src/core/utils/email-formated"
 import { EmailFormatIncorretly } from "../../../errors/email-format-incorretly"
+import { CryptograpyRepository } from "../cryptograpy/cryptograpy-repository"
 
 export interface ClientUseCaseRequest {
     name: string
@@ -46,7 +45,7 @@ Client>
 export class CreateClientUseCase {
     constructor(
     private readonly repository: ClientRepository,
-    private readonly passwordHashRepository: PasswordHashRepository
+    private readonly passwordHashRepository: CryptograpyRepository
     ) {}
 
     async execute({birthDateAt,email,name,password,phone,cpf, attachmentsIds}: ClientUseCaseRequest): Promise<ClientUseCaseResponse> {

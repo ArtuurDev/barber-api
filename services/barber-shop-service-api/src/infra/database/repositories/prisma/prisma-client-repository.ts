@@ -23,12 +23,12 @@ export class PrismaClientRepository implements ClientRepository {
         
     }
 
-    async authenticate(email: string, password: string): Promise<PrismaClient | null> {
+    async authenticate(email: string ): Promise<PrismaClient | null> {
         
         const client = await this.prisma.client.findFirst({
             where: {
                 email, 
-                password
+                
             }
         })
 
@@ -52,8 +52,6 @@ export class PrismaClientRepository implements ClientRepository {
         return PrismaMapper.toDomain(client)
 
     }
-
-
 
     async find(): Promise<Client[] | []> {
 
@@ -80,7 +78,6 @@ export class PrismaClientRepository implements ClientRepository {
         return PrismaMapper.toDomain(client)
     }
 
-
     async findByEmail(email: string): Promise<Client | null> {
         
         const client = await this.prisma.client.findUnique({
@@ -95,7 +92,6 @@ export class PrismaClientRepository implements ClientRepository {
 
         return PrismaMapper.toDomain(client)
     }
-
 
     async findByCpf(cpf: string): Promise<Client | null> {
         
@@ -140,7 +136,6 @@ export class PrismaClientRepository implements ClientRepository {
         })
 
     }
-
 
     async delete(id: string): Promise<any> {
 

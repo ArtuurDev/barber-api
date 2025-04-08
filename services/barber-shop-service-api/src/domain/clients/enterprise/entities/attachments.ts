@@ -3,8 +3,10 @@ import { UniqueEntityId } from "services/barber-shop-service-api/src/core/entity
 
 export interface AttachmentsProps {
     title: string
-    link: string
+    url: string
 }
+
+
 export class Attachments extends Entity<AttachmentsProps> {
 
     get attachmentId() {
@@ -12,7 +14,7 @@ export class Attachments extends Entity<AttachmentsProps> {
     }
 
     get link() {
-        return this.props.link
+        return this.props.url
     }
 
     static create(props: AttachmentsProps, id?: UniqueEntityId) {

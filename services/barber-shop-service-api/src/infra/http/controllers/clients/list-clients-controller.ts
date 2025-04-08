@@ -1,7 +1,7 @@
 import { Controller, Get, Res } from "@nestjs/common";
 import { Response } from "express";
-import { GetClientsUseCase } from "services/barber-shop-service-api/src/domain/application/use-cases/get-clients";
 import { GetListClientPresenter } from "../../presenters/get-clients-presenter";
+import { GetClientsUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/get-clients";
 
 @Controller("/clients")
 export class GetClientsController {

@@ -10,5 +10,5 @@ export abstract class ClientRepository {
     abstract findByCpf(cpf: string): Promise<Client | null>
     abstract save(data: Client): Promise<any>
     abstract delete(id: string): Promise<any>
-    abstract authenticate(email: string, password: string): Promise<PrismaClient | null>
+    abstract authenticate(email: string): Promise<PrismaClient | null>
 }
