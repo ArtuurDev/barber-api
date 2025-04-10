@@ -21,14 +21,14 @@ export class UploadController {
       }),  
     ) file: Express.Multer.File) {
 
-      const attachment = await this.uploadAttachmentsUseCase.execute({
+      const {value} = await this.uploadAttachmentsUseCase.execute({
         body: file.buffer,
-        fileName: file.filename,
+        fileName: file.originalname,
         fileType: file.mimetype
       })
 
       return {
-        attachmentid: attachment.value._id.toValue
+        attachmentId: value.attachment._id.toValue
       }
 
     }
