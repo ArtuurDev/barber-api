@@ -9,12 +9,16 @@ export interface AttachmentsProps {
 
 export class Attachments extends Entity<AttachmentsProps> {
 
-    get attachmentId() {
+    get title() {
         return this.props.title
     }
 
-    get link() {
+    get url() {
         return this.props.url
+    }
+
+    set url(url: string) {
+        this.props.url = url
     }
 
     static create(props: AttachmentsProps, id?: UniqueEntityId) {
