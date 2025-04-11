@@ -14,6 +14,10 @@ export class PrismaClientAttachment implements CiientAttachmentRepository {
             return item.attachmentId.toValue
         })
 
+        if(attachmentIds.length < 1) {
+            return
+        }
+
         return this.prisma.attachment.updateMany({
             where: {
                 id: {
