@@ -19,7 +19,7 @@ export class EditEmailClientController {
         private readonly editEmailUseCase: EditEmailUseCase
     ) {}
 
-    @Put(':id')
+    @Put('edit-email/:id')
     async handle(@Body() body: editEmailRequest, @Param('id') id: string, @Res() res: Response) {
 
         const {email} = body 

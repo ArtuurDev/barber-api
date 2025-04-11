@@ -24,7 +24,7 @@ export class CreateClientController {
         private readonly createClientUseCase: CreateClientUseCase
     ) {}
 
-    @Post()
+    @Post('/account')
     async handle(@Body() body: ClientRequest, @Res() res: Response) {
 
         const {name,email,password,phone,cpf,birthDateAt, attachments} = body
