@@ -23,7 +23,7 @@ export interface ClientUseCaseRequest {
     email: string
     password: string
     phone: string
-    attachmentsIds?: string[] 
+    attachmentsIds: string[] 
     cpf: string
     birthDateAt: string
     createdAt?: Date
@@ -51,7 +51,6 @@ export class CreateClientUseCase {
     async execute({birthDateAt,email,name,password,phone,cpf, attachmentsIds}: ClientUseCaseRequest): Promise<ClientUseCaseResponse> {
 
         try {
-
         const formattedCpf = formatCpf(cpf)
         const formattedPhone = formatPhone(phone)
         const formattedPassword = formatPassord(password)
@@ -83,17 +82,16 @@ export class CreateClientUseCase {
             cpf,
         })
 
-        if(attachmentsIds) {
-            const attachments = attachmentsIds.map(atachment => {
-                return ClientAttachments.create({
-                    attachmentId: new UniqueEntityId(atachment),
-                    clientId: new UniqueEntityId(client._id.toValue)
-                })
+        
+        const attachments = attachmentsIds.map(atachment => {
+            return ClientAttachments.create({
+                attachmentId: new UniqueEntityId(atachment),
+                clientId: new UniqueEntityId(client._id.toValue)
             })
+        })
     
-            client.attachments = new ClientAttachmentlist(attachments)
-        }
-
+        client.attachments = new ClientAttachmentlist(attachments)
+    
         await this.repository.create(client)
 
         return right({
