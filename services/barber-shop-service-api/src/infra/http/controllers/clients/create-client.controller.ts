@@ -10,7 +10,8 @@ const requestClientSchema = z.object({
     password: z.string(),
     phone: z.string().min(11),
     cpf: z.string().min(11),
-    birthDateAt: z.string()
+    birthDateAt: z.string(),
+    attachments: z.string().array().optional()
 })
 
 type ClientRequest = z.infer<typeof requestClientSchema>
@@ -26,7 +27,7 @@ export class CreateClientController {
     @Post()
     async handle(@Body() body: ClientRequest, @Res() res: Response) {
 
-        const {name,email,password,phone,cpf,birthDateAt} = body
+        const {name,email,password,phone,cpf,birthDateAt, attachments} = body
 
         const result = await this.createClientUseCase.execute({
             birthDateAt,
@@ -34,7 +35,8 @@ export class CreateClientController {
             email,
             name,
             password,
-            phone
+            phone,
+            attachmentsIds: attachments
         })
 
         if(result.isLeft()) {
