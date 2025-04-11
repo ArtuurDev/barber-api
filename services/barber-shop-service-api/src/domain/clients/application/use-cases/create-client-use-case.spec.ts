@@ -37,7 +37,8 @@ describe('Tests related to creating a client and value objects of Client', () =>
             password: '1234Am@',
             cpf: '622.408.473-44',
             phone: '88996036331',
-            birthDateAt: "2006-02-24"
+            birthDateAt: "2006-02-24",
+            attachmentsIds: []
         })
 
         expect(result2.isLeft()).toBe(true)
@@ -51,7 +52,8 @@ describe('Tests related to creating a client and value objects of Client', () =>
             password: '1234Am@',
             cpf: '477.341.170-82',
             phone: '88996036330',
-            birthDateAt: "2006-02-24"
+            birthDateAt: "2006-02-24",
+            attachmentsIds: []
         })
 
         const result2 = await sut.execute({
@@ -60,7 +62,8 @@ describe('Tests related to creating a client and value objects of Client', () =>
             password: '1234Am@',
             cpf: '622.408.473-44',
             phone: '(88) 99603-6330',
-            birthDateAt: "2006-02-24"
+            birthDateAt: "2006-02-24",
+            attachmentsIds: []
         })
 
         expect(result2.isLeft()).toBe(true)
@@ -74,7 +77,8 @@ describe('Tests related to creating a client and value objects of Client', () =>
             password: '1234Am@',
             cpf: '622.408.473-44',
             phone: '88996036330',
-            birthDateAt: "2006-02-24"
+            birthDateAt: "2006-02-24",
+            attachmentsIds: []
         })
 
         const result2 = await sut.execute({
@@ -83,7 +87,8 @@ describe('Tests related to creating a client and value objects of Client', () =>
             password: '1234Am@',
             cpf: '477.341.170-82',
             phone: '88996036331',
-            birthDateAt: "2006-02-24"
+            birthDateAt: "2006-02-24",
+            attachmentsIds: []
         })
 
         expect(result2.isLeft()).toBe(true)
@@ -111,7 +116,8 @@ describe('Tests related to creating a client and value objects of Client', () =>
             password: '1234Am@',
             cpf: '24325344242.e',
             phone: '88996036330',
-            birthDateAt: "2006-02-24"
+            birthDateAt: "2006-02-24",
+            attachmentsIds: []
         })
         expect(result.isLeft()).toBe(true)
         expect(result.value).toBeInstanceOf(CpfFormatIncorretly)
@@ -124,7 +130,8 @@ describe('Tests related to creating a client and value objects of Client', () =>
             password: '1234Am@',
             cpf: '622.408.473-44',
             phone: '8899603633',
-            birthDateAt: "2006-02-24"
+            birthDateAt: "2006-02-24",
+            attachmentsIds: []
         })
         expect(result.isLeft()).toBe(true)
         expect(result.value).toBeInstanceOf(PhoneFormatIncorretly)
@@ -137,7 +144,8 @@ describe('Tests related to creating a client and value objects of Client', () =>
             password: '123456',
             cpf: '622.408.473-44',
             phone: '88996036330',
-            birthDateAt: "2006-02-24"
+            birthDateAt: "2006-02-24",
+            attachmentsIds: []
         })
         expect(result.isLeft()).toBe(true)
         expect(result.value).toBeInstanceOf(PasswordFormatIncorretly)
