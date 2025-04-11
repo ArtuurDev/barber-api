@@ -36,7 +36,7 @@ export class CreateClientController {
             name,
             password,
             phone,
-            attachmentsIds: attachments
+            attachmentsIds: attachments ?? []
         })
 
         if(result.isLeft()) {
