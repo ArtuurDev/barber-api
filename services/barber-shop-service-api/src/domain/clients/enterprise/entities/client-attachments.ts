@@ -8,7 +8,7 @@ export interface ClientAttachmentsProps {
 
 export class ClientAttachments extends Entity<ClientAttachmentsProps> {
 
-    get clientAttachmentsid() {
+    get clientAttachmentsId() {
         return this.props.clientId
     }
 

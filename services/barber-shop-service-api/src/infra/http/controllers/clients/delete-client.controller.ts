@@ -9,7 +9,7 @@ export class DeleteClientController {
         private readonly deleteclientUseCase: DeleteClientsUseCase
     ) {}
 
-    @Delete(':id')
+    @Delete('delete/:id')
     async handle(@Param('id') id: string, @Res() res: Response) {
 
         const result = await this.deleteclientUseCase.execute({
