@@ -21,6 +21,8 @@ import { Uploader } from "../../domain/clients/application/storage/uploader.repo
 import {  StorageR2 } from "../storage/storageR2";
 import { PrismaAttachmentRepository } from "../database/repositories/prisma/prisma-attachments-repositories";
 import { AttachmentRepository } from "../../domain/clients/application/repositories/attachment-repository";
+import { PrismaClientAttachment } from "../database/repositories/prisma/prisma-clients-attachments";
+import { CiientAttachmentRepository } from "../../domain/clients/application/repositories/client-attachment-repository";
 
 @Module({
     imports: [
@@ -45,6 +47,12 @@ import { AttachmentRepository } from "../../domain/clients/application/repositor
         EditEmailUseCase,
         UploadAttachmentsUseCase, 
         PrismaAttachmentRepository,
+        PrismaClientAttachment, 
+        
+        {
+            provide: CiientAttachmentRepository,
+            useClass: PrismaClientAttachment
+        },
         {
             provide: AttachmentRepository,
             useClass: PrismaAttachmentRepository

@@ -5,9 +5,9 @@ Content-Type: application/json
 {
 	"name": "Lucas",
 	"email": "Lucas@gmail.ckom",
-	"phone": "88 996075433",
+	"phone": "88 996075432",
 	"birthDateAt": "2005-06-29",
-	"cpf": "398.971.740-52",
+	"cpf": "62240847344",
 	"password": "12345Am@"
 }
 

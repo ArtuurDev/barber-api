@@ -5,35 +5,35 @@ import { PrismaMapper } from "../mappers/mappers-client";
 import { Client as PrismaClient } from "@prisma/client";
 import { Client } from "services/barber-shop-service-api/src/domain/clients/enterprise/entities/client";
 import { ClientRepository } from "services/barber-shop-service-api/src/domain/clients/application/repositories/client-repositorie";
+import { CiientAttachmentRepository } from "services/barber-shop-service-api/src/domain/clients/application/repositories/client-attachment-repository";
 
 
 @Injectable()
 export class PrismaClientRepository implements ClientRepository {
     
     constructor(
-    private readonly prisma: PrismaService
+    private readonly prisma: PrismaService,
+    private readonly clientAttachmentRepository: CiientAttachmentRepository
     ) {}
 
     async create(client: Client): Promise<any> {
-        const data = PrismaMapper.toPrisma(client)
 
-        return this.prisma.client.create({
+        const data = PrismaMapper.toPrisma(client)
+        await this.prisma.client.create({
             data
         })
-        
+        const attachments = client.attachments.getItems()
+        await this.clientAttachmentRepository.createMany(attachments)
     }
 
     async authenticate(email: string ): Promise<PrismaClient | null> {
         
         const client = await this.prisma.client.findFirst({
             where: {
-                email, 
-                
+                email,  
             }
         })
-
         return client
-
     }
 
     async findByPassword(password: string, id: string): Promise<Client | null> {
@@ -44,24 +44,18 @@ export class PrismaClientRepository implements ClientRepository {
                 password
             }
         })
-
         if(!client) {
             return null
         }
-
         return PrismaMapper.toDomain(client)
-
     }
 
     async find(): Promise<Client[] | []> {
 
         const data = await this.prisma.client.findMany()
-
         const clients = data.map(item => PrismaMapper.toDomain(item))
-
         return clients
     }
-
 
     async findById(id: string): Promise<Client | null> {
         
@@ -70,11 +64,9 @@ export class PrismaClientRepository implements ClientRepository {
                 id
             }
         })
-
         if(!client) {
             return null
         }
-
         return PrismaMapper.toDomain(client)
     }
 
@@ -85,27 +77,22 @@ export class PrismaClientRepository implements ClientRepository {
                 email
             }
         })
-
         if(!client) {
             return null
         }
-
         return PrismaMapper.toDomain(client)
     }
 
     async findByCpf(cpf: string): Promise<Client | null> {
         
         const client = await this.prisma.client.findUnique({
-            
             where: {
                 cpf
             }
         })
-
         if(!client) {
             return null
         }
-
         return PrismaMapper.toDomain(client)
     }
 
@@ -116,13 +103,10 @@ export class PrismaClientRepository implements ClientRepository {
                 phone
             }
         })
-
         if(!client) {
             return null
         }
-
         return PrismaMapper.toDomain(client)
-
     }
     
     async save(client: Client) {
@@ -134,7 +118,6 @@ export class PrismaClientRepository implements ClientRepository {
             },
             data
         })
-
     }
 
     async delete(id: string): Promise<any> {
@@ -144,11 +127,8 @@ export class PrismaClientRepository implements ClientRepository {
                 id
             }
         })
-
         if(!client) return null
-
         return client
-
     }
 
 }
