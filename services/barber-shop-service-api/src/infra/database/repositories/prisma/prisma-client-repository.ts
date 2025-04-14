@@ -5,7 +5,7 @@ import { PrismaMapper } from "../mappers/mappers-client";
 import { Client as PrismaClient } from "@prisma/client";
 import { Client } from "services/barber-shop-service-api/src/domain/clients/enterprise/entities/client";
 import { ClientRepository } from "services/barber-shop-service-api/src/domain/clients/application/repositories/client-repositorie";
-import { CiientAttachmentRepository } from "services/barber-shop-service-api/src/domain/clients/application/repositories/client-attachment-repository";
+import { ClientAttachmentRepository } from "services/barber-shop-service-api/src/domain/clients/application/repositories/client-attachment-repository";
 
 
 @Injectable()
@@ -13,7 +13,7 @@ export class PrismaClientRepository implements ClientRepository {
     
     constructor(
     private readonly prisma: PrismaService,
-    private readonly clientAttachmentRepository: CiientAttachmentRepository
+    private readonly clientAttachmentRepository: ClientAttachmentRepository
     ) {}
 
     async create(client: Client): Promise<any> {
