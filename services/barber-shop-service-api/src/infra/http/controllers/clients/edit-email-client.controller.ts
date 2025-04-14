@@ -1,8 +1,10 @@
-import { Body, Controller, Param, Put, Res, UsePipes } from "@nestjs/common";
+import { Body, Controller, Param, Put, Res, UseGuards, UsePipes } from "@nestjs/common";
 import { z } from "zod";
 import { ZodValidationPipe } from "../pipes/zod-validation-pipe";
 import { Response } from "express";
 import { EditEmailUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/edit-email-client";
+import { AuthGuard } from "../../auth/auth-guard";
+import { Roles } from "../../auth/enum-role";
 
 
 const editEmailSchema = z.object({
@@ -12,6 +14,8 @@ const editEmailSchema = z.object({
 type editEmailRequest = z.infer<typeof editEmailSchema>
 
 @UsePipes(new ZodValidationPipe(editEmailSchema))
+@UseGuards(AuthGuard)
+@Roles(['CLIENT', 'ADMIN'])
 @Controller('/clients')
 export class EditEmailClientController {
 

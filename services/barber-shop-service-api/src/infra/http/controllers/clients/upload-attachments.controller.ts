@@ -1,13 +1,16 @@
-import { Controller, FileTypeValidator, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Controller, FileTypeValidator, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { UploadAttachmentsUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/upload-attachments";
+import { AuthGuard } from "../../auth/auth-guard";
+import { Roles } from "../../auth/enum-role";
 
 @Controller('/attachments')
+@UseGuards(AuthGuard)
+@Roles(['CLIENT', 'ADMIN'])
 export class UploadController {
 
   constructor(
     private uploadAttachmentsUseCase: UploadAttachmentsUseCase) {
-    
   }
     
     @Post()
