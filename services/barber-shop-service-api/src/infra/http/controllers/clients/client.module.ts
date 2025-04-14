@@ -19,6 +19,8 @@ import { ClientRepository } from "services/barber-shop-service-api/src/domain/cl
 import { PrismaClientRepository } from "../../../database/repositories/prisma/prisma-client-repository";
 import { CryptograpyRepository } from "services/barber-shop-service-api/src/domain/clients/application/cryptograpy/cryptograpy-repository";
 import { ClientAttachmentRepository } from "services/barber-shop-service-api/src/domain/clients/application/repositories/client-attachment-repository";
+import { FetchProfileClientController } from "./fetch-profile-client.controller";
+import { FetchProfileClientUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/fetch-client";
 
 @Module({
     controllers: 
@@ -27,7 +29,8 @@ import { ClientAttachmentRepository } from "services/barber-shop-service-api/src
         DeleteClientController,
         AuthenticateClientController,
         UploadController,
-        EditEmailClientController
+        EditEmailClientController,
+        FetchProfileClientController
     ],
     providers: 
     [
@@ -37,6 +40,7 @@ import { ClientAttachmentRepository } from "services/barber-shop-service-api/src
         PasswordHash,
         EditEmailUseCase,
         UploadAttachmentsUseCase, 
+        FetchProfileClientUseCase,
          {
             provide: ClientAttachmentRepository,
             useClass: PrismaClientAttachment
