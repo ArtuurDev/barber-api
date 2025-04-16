@@ -1,5 +1,4 @@
 import { DomainEvents } from "services/barber-shop-service-api/src/core/events/domain-events"
-
 import { Client as PrismaClient } from "@prisma/client";
 import { ClientRepository } from "services/barber-shop-service-api/src/domain/clients/application/repositories/client-repositorie";
 import { Client } from "services/barber-shop-service-api/src/domain/clients/enterprise/entities/client";
@@ -19,14 +18,13 @@ export class ClientInMemoryRepository implements ClientRepository{
     async create(client: Client): Promise<any>  {
     
         this.items.push(client)
-        DomainEvents.dispatchEventsForAggregate(client._id)
     }
 
     async find(): Promise<Client[] | []> {
         const clients = this.items
         return clients
     }
-
+    
     async findById(id: string): Promise<Client | undefined> {
         
         const client = this.items.find(item => item._id.toValue === id)
@@ -40,6 +38,17 @@ export class ClientInMemoryRepository implements ClientRepository{
             return null
         }
         return client
+    }
+
+    async editEmail(id: string, email: string): Promise<any> {
+
+        const index = this.items.findIndex(item => item._id.toValue === id) 
+        if(index === -1) {
+            return undefined
+        }
+        this.items[index].emailValidated = false
+        return this.items[index].email = email
+        
     }
 
     async findByPhone(phone: string): Promise<Client | null> {
@@ -67,7 +76,7 @@ export class ClientInMemoryRepository implements ClientRepository{
         const index = this.items.findIndex(item => item._id.toValue === data._id.toValue) 
         if(index === -1) {
             return undefined
-        } 
+        }
 
         return this.items[index] = data
     }

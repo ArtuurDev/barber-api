@@ -10,6 +10,5 @@ export class FetchProfileClientPresenter {
             birthDateAt: client.birthDateAt,
             createdAt: client.createdAt,
         }
-
     }
 }

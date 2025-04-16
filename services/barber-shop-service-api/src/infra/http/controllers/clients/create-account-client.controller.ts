@@ -3,6 +3,9 @@ import { z } from "zod";
 import { ZodValidationPipe } from "../pipes/zod-validation-pipe";
 import { Response } from "express";
 import { CreateClientUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/create-client-use-case";
+import { JwtService } from "@nestjs/jwt";
+import { ConfigService } from "@nestjs/config";
+import { Env } from "../../../env";
 
 const requestClientSchema = z.object({
     name: z.string(),
@@ -21,7 +24,9 @@ type ClientRequest = z.infer<typeof requestClientSchema>
 export class CreateClientController {
 
     constructor(
-        private readonly createClientUseCase: CreateClientUseCase
+        private readonly createClientUseCase: CreateClientUseCase,
+        private readonly jwtService: JwtService,
+        private configService: ConfigService<Env>
     ) {}
 
     @Post('/account')
@@ -29,7 +34,7 @@ export class CreateClientController {
 
         const {name,email,password,phone,cpf,birthDateAt, attachments} = body
 
-        const result = await this.createClientUseCase.execute({
+        const {value, isLeft} = await this.createClientUseCase.execute({
             birthDateAt,
             cpf,
             email,
@@ -39,13 +44,23 @@ export class CreateClientController {
             attachmentsIds: attachments ?? []
         })
 
-        if(result.isLeft()) {
-            return res.status(result.value.code).json(result.value)
+        if(isLeft()) {
+            return res.status(value.code).json(value)
         }
 
         return res.status(201).json({
-            message: 'success'
+            message: 'success',
+            partialAcessToken: {
+            details: 'Use este token para utilizar o recurso de verificação de email, se o token tiver expirado, faça login novamente',
+            token: this.jwtService.sign({
+                sub: value.client._id.toValue,
+                permission: value.client.permission
+            }, 
+            {
+                expiresIn: '15m'
+            })
+        }
         })
-        
     }
+        
 }

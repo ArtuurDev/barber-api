@@ -3,12 +3,10 @@ import { CreateClientController } from "./create-account-client.controller";
 import { DeleteClientController } from "./delete-account-client.controller";
 import { AuthenticateClientController } from "./login-client.controller";
 import { UploadController } from "./upload-attachments.controller";
-import { EditEmailClientController } from "./edit-email-client.controller";
 import { CreateClientUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/create-client-use-case";
 import { DeleteClientsUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/delete-client";
 import { AuthenticateClientUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/authenticate-client";
 import { PasswordHash } from "../../../database/repositories/cryptograpy-repository";
-import { EditEmailUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/edit-email-client";
 import { UploadAttachmentsUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/upload-attachments";
 import { PrismaAttachmentRepository } from "../../../database/repositories/prisma/prisma-attachments-repositories";
 import { PrismaClientAttachment } from "../../../database/repositories/prisma/prisma-clients-attachments";
@@ -21,6 +19,10 @@ import { CryptograpyRepository } from "services/barber-shop-service-api/src/doma
 import { ClientAttachmentRepository } from "services/barber-shop-service-api/src/domain/clients/application/repositories/client-attachment-repository";
 import { FetchProfileClientController } from "./fetch-profile-client.controller";
 import { FetchProfileClientUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/fetch-client";
+import { MarkClientEmailValidatedController } from "./mark-client-emailValidated.controller";
+import { SendVerificationEmailController } from "./send-verification-email.controller";
+import { EmailService } from "../../../services/node-mailer";
+import { MarkClientEmailValidatedUseCase } from "services/barber-shop-service-api/src/domain/clients/application/use-cases/mark-client-emailValidated";
 
 @Module({
     controllers: 
@@ -29,8 +31,9 @@ import { FetchProfileClientUseCase } from "services/barber-shop-service-api/src/
         DeleteClientController,
         AuthenticateClientController,
         UploadController,
-        EditEmailClientController,
-        FetchProfileClientController
+        FetchProfileClientController,
+        SendVerificationEmailController,
+        MarkClientEmailValidatedController,
     ],
     providers: 
     [
@@ -38,9 +41,11 @@ import { FetchProfileClientUseCase } from "services/barber-shop-service-api/src/
         DeleteClientsUseCase,
         AuthenticateClientUseCase,
         PasswordHash,
-        EditEmailUseCase,
         UploadAttachmentsUseCase, 
         FetchProfileClientUseCase,
+        MarkClientEmailValidatedController,
+        EmailService,
+        MarkClientEmailValidatedUseCase,
          {
             provide: ClientAttachmentRepository,
             useClass: PrismaClientAttachment

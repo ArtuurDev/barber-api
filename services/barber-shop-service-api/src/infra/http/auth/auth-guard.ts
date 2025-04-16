@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
+import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { JwtService } from "@nestjs/jwt";
 import { Observable } from "rxjs";
@@ -18,7 +18,6 @@ export class AuthGuard implements CanActivate {
         if(!roles) {
             return true
         }
-
         const request = context.switchToHttp().getRequest()
         const {authorization} = request.headers
         if(!authorization) {
@@ -32,12 +31,21 @@ export class AuthGuard implements CanActivate {
             const payload = this.jwtService.verify(info[1])
             request.user = payload
             if(!roles.includes(request.user.permission)) {
-                throw new UnauthorizedException()
+                throw new UnauthorizedException({
+                    mstatusCode: HttpStatus.UNAUTHORIZED,
+                    message: 'Você não tem permissão para acessar este recurso'
+                })
+            }
+            if(!request.user.emailValidated) {
+                throw new UnauthorizedException({
+                    statusCode: HttpStatus.UNAUTHORIZED,
+                    message: 'Primeiro, valide o email para ter acesso aos recursos',
+                })    
             }
             return true
         }
         catch(err) {
-            throw new UnauthorizedException()
+            throw err
         }
     }
     

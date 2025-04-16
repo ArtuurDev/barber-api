@@ -10,6 +10,7 @@ export function makeClient(override: Partial<Client> = {}, id?: UniqueEntityId) 
         password: '12323Amk@',
         phone: '(88) 99603-6330',
         birthDateAt: new Date(),
+        permission: 'CLIENT',
         ...override
         
     }, id)

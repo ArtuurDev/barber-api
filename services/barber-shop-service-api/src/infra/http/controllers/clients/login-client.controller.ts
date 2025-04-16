@@ -42,7 +42,8 @@ export class AuthenticateClientController {
         return res.status(201).json({
             access_token: this.jwt.sign({
             sub: value.client.id,
-            permission: value.client.permission
+            permission: value.client.permission,
+            emailValidated: value.client.emailValidated
         }) 
         })
 

@@ -7,7 +7,9 @@ export const envSchema = z.object({
     CLOUD_FLARE_ID: z.string(),
     ACCESS_KEY_CLOUD_FLARE: z.string(),
     SECRET_KEY_CLOUF_FLARE: z.string(),
-    BUCKET_NAME: z.string()
+    BUCKET_NAME: z.string(),
+    SECRET_TOKEN_JWT_EMAIL: z.string(),
+    // SECRET_TOKEN_JWT_FROM_CREATE_ACCONT: z.string()
 })
 
 export type Env = z.infer<typeof envSchema> 

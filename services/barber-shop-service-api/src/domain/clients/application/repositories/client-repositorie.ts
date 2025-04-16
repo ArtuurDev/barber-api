@@ -11,4 +11,5 @@ export abstract class ClientRepository {
     abstract save(data: Client): Promise<any>
     abstract delete(id: string): Promise<any>
     abstract authenticate(email: string): Promise<PrismaClient | null>
+    abstract editEmail(id: string, email: string): Promise<any>
 }

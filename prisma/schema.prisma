@@ -63,3 +63,12 @@ model Attachment {
   barberId          String?
   clientId          String?
 }
+
+model Notification {
+  id                String                @id @default(uuid())
+  title             String
+  recipientId       String                @unique
+  content           String
+  createdAt         DateTime
+  readAt            Boolean?
+}

@@ -13,7 +13,9 @@ export class PrismaMapper {
             cpf: client.cpf,
             birthDateAt: client.birthDateAt,
             createdAt: client.createdAt,
-            updatedAt: client.updatedAt
+            updatedAt: client.updatedAt,
+            permission: 'CLIENT',
+
         }, new UniqueEntityId(client.id))
     }
 
@@ -27,6 +29,8 @@ export class PrismaMapper {
             cpf: client.cpf,
             birthDateAt: client.birthDateAt,
             phone: client.phone,
+            emailValidated: client.emailValidated,
+            permission: client.permission
         }
         return clientPrisma
     }

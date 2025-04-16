@@ -1,4 +1,3 @@
-
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "./prisma.service";
 import { PrismaMapper } from "../mappers/mappers-client";
@@ -6,6 +5,7 @@ import { Client as PrismaClient } from "@prisma/client";
 import { Client } from "services/barber-shop-service-api/src/domain/clients/enterprise/entities/client";
 import { ClientRepository } from "services/barber-shop-service-api/src/domain/clients/application/repositories/client-repositorie";
 import { ClientAttachmentRepository } from "services/barber-shop-service-api/src/domain/clients/application/repositories/client-attachment-repository";
+import { DomainEvents } from "services/barber-shop-service-api/src/core/events/domain-events";
 
 
 @Injectable()
@@ -22,6 +22,9 @@ export class PrismaClientRepository implements ClientRepository {
         await this.prisma.client.create({
             data
         })
+
+        // DomainEvents.dispatchEventsForAggregate(client._id)
+
         const attachments = client.attachments.getItems()
         await this.clientAttachmentRepository.createMany(attachments)
     }
@@ -55,14 +58,14 @@ export class PrismaClientRepository implements ClientRepository {
         const data = await this.prisma.client.findMany()
         const clients = data.map(item => PrismaMapper.toDomain(item))
         return clients
-    }
+    }  
 
     async findById(id: string): Promise<Client | null> {
         
         const client = await this.prisma.client.findUnique({
             where: {
                 id
-            }
+            },
         })
         if(!client) {
             return null
@@ -81,6 +84,20 @@ export class PrismaClientRepository implements ClientRepository {
             return null
         }
         return PrismaMapper.toDomain(client)
+    }
+
+    async editEmail(id: string, email: string): Promise<any> {
+        
+        await this.prisma.client.update({
+            where: {
+                id
+            }, 
+            data: {
+                email,
+                emailValidated: false
+            }
+        })
+
     }
 
     async findByCpf(cpf: string): Promise<Client | null> {
@@ -112,12 +129,16 @@ export class PrismaClientRepository implements ClientRepository {
     async save(client: Client) {
         const data = PrismaMapper.toPrisma(client)
 
-        return this.prisma.client.update({
+        await this.prisma.client.update({
             where: {
                 id: data.id
             },
             data
         })
+
+        DomainEvents.dispatchEventsForAggregate(client._id)
+
+        return data
     }
 
     async delete(id: string): Promise<any> {

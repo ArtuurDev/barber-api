@@ -80,6 +80,7 @@ export class CreateClientUseCase {
             phone,
             birthDateAt: new Date(birthDateAt),
             cpf,
+            permission: 'CLIENT'
         })
 
         
