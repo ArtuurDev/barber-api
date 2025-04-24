@@ -4,7 +4,7 @@ import { UniqueEntityId } from "../../../../../core/entitys/unique-entity-id";
 import { Cpf } from "../../../../value-objects/cpf";
 import { Name } from "../../../../value-objects/name";
 import { NumberPhone } from "../../../../value-objects/number_phone";
-import { DateVo } from "@/domain/value-objects/date";
+import { DateVo } from "src/domain/value-objects/date";
 
 export interface customerProps {
     full_name: Name

@@ -9,7 +9,7 @@ import { Name } from "../../../../value-objects/name"
 import { NumberPhone } from "../../../../value-objects/number_phone"
 import { Customer } from "../../enterprise/entities/customer"
 import { CustomerRepository } from "../repositories/customer-repository"
-import { DateInvalid } from "@/domain/errors/date"
+import { DateInvalid } from "src/domain/errors/date"
 
 export interface CreateCustomerUseCaseRequest {
     fullName: string
