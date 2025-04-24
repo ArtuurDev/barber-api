@@ -1,13 +1,15 @@
+import { DateVo } from "../../../../value-objects/date"
 import { Either, left, right } from "../../../../../core/either"
 import { CpfInvalid } from "../../../../errors/cpf-ivalid"
 import { EmailInvalid } from "../../../../errors/email-invalid"
 import { NameInvalid } from "../../../../errors/name-invalid"
 import { Cpf } from "../../../../value-objects/cpf"
-import { Email } from "../../../../value-objects/Email"
+import { Email } from "../../../../value-objects/email"
 import { Name } from "../../../../value-objects/name"
 import { NumberPhone } from "../../../../value-objects/number_phone"
 import { Customer } from "../../enterprise/entities/customer"
 import { CustomerRepository } from "../repositories/customer-repository"
+import { DateInvalid } from "@/domain/errors/date"
 
 export interface CreateCustomerUseCaseRequest {
     fullName: string
@@ -23,6 +25,7 @@ type CreateCustomerUseCaseResponse =
 Either<
 NameInvalid | 
 EmailInvalid |
+DateInvalid |
 CpfInvalid,
 { instanceCustomer: Customer } >
 
@@ -51,21 +54,19 @@ export class CreateCustomerUseCase {
         if(emailAlreadyExists) {
             return left(new EmailInvalid(409, 'This E-mail already exists'))
         }
-
-        const birthDate = new Date(birthDateAt)
-        if (isNaN(birthDate.getTime())) {
-        return left(new Error("Invalid birth date"))
-        }
         
         try {
             const instanceCustomer = Customer.create({
                 full_name: new Name(fullName),
                 cpf: new Cpf(cpf),
-                birthDateAt: new Date(birthDate),
+                birthDateAt: new DateVo(birthDateAt),
                 email: new Email(email),
                 numberPhone: new NumberPhone(numberPhone),
                 emailValidated: false,
             })
+
+            await this.customerRepository.create(instanceCustomer)
+
             return right({
                 instanceCustomer
             })

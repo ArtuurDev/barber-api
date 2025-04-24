@@ -1,16 +1,17 @@
+import { Email } from "../../../../value-objects/email";
 import { Entity } from "../../../../../core/entitys/entity";
 import { UniqueEntityId } from "../../../../../core/entitys/unique-entity-id";
 import { Cpf } from "../../../../value-objects/cpf";
-import { Email } from "../../../../value-objects/Email";
 import { Name } from "../../../../value-objects/name";
 import { NumberPhone } from "../../../../value-objects/number_phone";
+import { DateVo } from "@/domain/value-objects/date";
 
 export interface customerProps {
     full_name: Name
     email: Email
     cpf: Cpf
     numberPhone: NumberPhone
-    birthDateAt: Date
+    birthDateAt: DateVo
     createdAt?: Date
     permission?: 'CLIENT'
     emailValidated?: boolean
@@ -29,6 +30,7 @@ export class Customer extends Entity<customerProps> {
             createdAt: props.createdAt ?? new Date(),
             emailValidated: false,
             permission: props.permission ?? 'CLIENT',
+            updatedAt: props.updatedAt ?? null
         }, id)
     }
 
@@ -48,7 +50,7 @@ export class Customer extends Entity<customerProps> {
         return this.props.permission
     }
 
-    get birtDateAt() {
+    get birthDateAt() {
         return this.props.birthDateAt
     }
 
@@ -57,7 +59,7 @@ export class Customer extends Entity<customerProps> {
     }
 
     get numberPhone() {
-        return this.numberPhone
+        return this.props.numberPhone
     }
 
 }
