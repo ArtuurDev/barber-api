@@ -7,7 +7,6 @@ import { NumberPhoneInvalid } from 'src/domain/errors/number_phone.js'
 import { CpfInvalid } from 'src/domain/errors/cpf-ivalid.js'
 import { DateInvalid } from 'src/domain/errors/date.js'
 
-
 describe('customer creation testing section', () => {
 
     let inMemoryRepositoryCustomer: InMemoryCustomerRepository
@@ -77,7 +76,7 @@ describe('customer creation testing section', () => {
         expect(result.isRight()).toBe(false)
         expect(result.value).toEqual(new CpfInvalid())
     })
-    
+
     it('should not be possible to create a customer with a poorly formatted birthDate', async () => {
         const result = await sut.execute({
             birthDateAt: '2006-02-40',
