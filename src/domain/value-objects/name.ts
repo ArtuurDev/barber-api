@@ -16,7 +16,7 @@ export class Name {
     nameValidation(name: string) {
         const regex = new RegExp("^[A-Za-zÀ-ÖØ-öø-ÿ']+( [A-Za-zÀ-ÖØ-öø-ÿ']+)*$") // "João" "Ana Clara" "José d'Ávila" "Élise Dubois" "Óscar"
         if(!regex.test(name)) {
-            return left(new NameInvalid())
+            throw new NameInvalid()
         }
         return name
     }

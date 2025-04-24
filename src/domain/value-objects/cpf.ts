@@ -18,7 +18,7 @@ export class Cpf {
           
             // Verifica se tem 11 dígitos e se todos os dígitos não são iguais
             if (!/^\d{11}$/.test(cleaned) || /^(\d)\1{10}$/.test(cleaned)) {
-              return left(new CpfInvalid())
+              throw new CpfInvalid()
             }
           
             // Validação do primeiro dígito verificador

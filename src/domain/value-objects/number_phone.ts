@@ -9,7 +9,7 @@ export class NumberPhone {
         this._numberPhone = numberPhone
     }
 
-    get numberPhone() {
+    get value() {
         return this._numberPhone
     }
     
@@ -17,7 +17,7 @@ export class NumberPhone {
         const regex = /^\(?\d{2}\)?\s?(9\d{4}|\d{4})-?\d{4}$/
 
         if(!regex.test(numberPhone)) {
-            return left(new NumberPhoneInvalid())
+            throw new NumberPhoneInvalid()
         }
         
         return numberPhone
