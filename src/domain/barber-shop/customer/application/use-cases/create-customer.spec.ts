@@ -55,7 +55,7 @@ describe('customer creation testing section', () => {
 
     it('should not be possible to create a customer with a poorly formatted phone', async () => {
         const result = await sut.execute({
-            birthDateAt: '2006-02-24',
+            birthDateAt: '2024-01-01',
             cpf: '62240847344',
             email: 'arturcastrodossantos@gmail.com',
             fullName: 'Luiz Artur Castro dos Santos',

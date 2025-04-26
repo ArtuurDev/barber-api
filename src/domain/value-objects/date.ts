@@ -1,4 +1,3 @@
-import { left } from "../../core/either"
 import { DateInvalid } from "../errors/date"
 
 export class DateVo {
