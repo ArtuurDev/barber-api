@@ -19,7 +19,7 @@ describe('tests related to appointments', () => {
 
     beforeEach(() => {
         inMemoryAppointmentRepository = new InMemoryAppointmentRepository()
-        inMemoryBarberRepository = new InMemoryBarberRepository(inMemoryAppointmentRepository)
+        inMemoryBarberRepository = new InMemoryBarberRepository()
         inMemoryCustomerRepository = new InMemoryCustomerRepository()
 
         sut = new CreateAppointmentUseCase(

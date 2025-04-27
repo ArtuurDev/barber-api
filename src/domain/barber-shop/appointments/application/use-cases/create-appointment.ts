@@ -59,7 +59,7 @@ export class CreateAppointmentUseCase {
         }
 
         // verificando se barbeiro está disponivel na data e hora selecionada
-        const isBarberAvailableOnDateAndHour = await this.barberRepository.isBarberAvailableOnDateAndHour({
+        const isBarberAvailableOnDateAndHour = await this.appointmentRepository.isBarberAvailableOnDateAndHour({
             appointmentDate: appointmentDateTypeDate,
             barberId,
             hours: hours.map(item => new UniqueEntityId(item))
