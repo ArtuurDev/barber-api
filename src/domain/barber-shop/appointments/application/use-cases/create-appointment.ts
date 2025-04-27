@@ -64,6 +64,7 @@ export class CreateAppointmentUseCase {
             barberId,
             hours: hours.map(item => new UniqueEntityId(item))
         })
+        
         if(!isBarberAvailableOnDateAndHour) {
             return left(new IsBarberNotAvailableOnDateAndHours())
         }

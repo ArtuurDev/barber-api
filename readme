@@ -1,0 +1,11 @@
+USE CASES - 
+
+[x] - CREATE CUSTOMER - para administrador e cliente 
+[] - CREATE BARBER - para adminstrador
+[] - LIST BARBER - mostrar os dados na interface para o usuário escolher o barbeiro
+[] - CREATE APPOINTMENT - para administrador e cliente
+[] - LIST CUSTOMER - para admistrador 
+[] - GET PROFILE THE CUSTOMER
+[] - LIST APPOINTMENT - para admistrador
+[] - LIST HOURS AVAILABLE - para mostrar na interface após o usuário escolher o barbeiro e serviço
+[] - LIST SERVICES - para mostrar na interface do usuário quando ele for escolher um serviço

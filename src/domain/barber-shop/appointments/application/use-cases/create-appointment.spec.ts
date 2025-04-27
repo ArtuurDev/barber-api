@@ -47,7 +47,6 @@ describe('tests related to appointments', () => {
             notes: 'Quero que seja rápido'
         })
 
-        console.log(result.value)
         expect(result.isRight()).toBe(true)
         expect(inMemoryAppointmentRepository.items).toHaveLength(1)
     })

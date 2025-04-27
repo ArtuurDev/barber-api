@@ -1,11 +1,11 @@
 import { DateInvalid } from "../errors/date"
 
 export class DateVo {
-    private _date: Date
+    private _date: string
 
     constructor(date: string) {
         this.dateValidation(date)
-        this._date = new Date(date)
+        this._date = date
     }
 
     get value() {
