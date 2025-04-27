@@ -7,6 +7,8 @@ import { BarberRepository } from "src/domain/barber-shop/barber/application/repo
 import { IsBarberNotAvailableOnDateAndHours } from "src/domain/barber-shop/barber/errors/is-barber-not-available-on-date-and-hours"
 import { UniqueEntityId } from "src/core/entitys/unique-entity-id"
 import { DateVo } from "src/domain/value-objects/date"
+import { ServiceListRepository } from "src/domain/barber-shop/servicesList/application/repositories/service-list-repository"
+import { ThisServiceIsNotAvailableAtTheBarber } from "src/domain/barber-shop/barber/errors/this-service-is-not-available-at-the-barber"
 
 export interface CreateAppointmentUseCaseRequest {
     customerId: string
@@ -27,7 +29,8 @@ export class CreateAppointmentUseCase {
     constructor(
         private appointmentRepository: AppointmentsRepository,
         private customerRepository: CustomerRepository,
-        private barberRepository: BarberRepository
+        private barberRepository: BarberRepository,
+        private serviceListRepository: ServiceListRepository
     ) {}
 
     async execute({
@@ -56,6 +59,13 @@ export class CreateAppointmentUseCase {
         const barber = await this.barberRepository.findById(barberId)
         if(!barber) {
             return left(new IdNotExists(400, 'This barberId does not exist'))
+        }
+
+        // verificando se o barber contem os serviços escolhidos
+        const servicesIsTheBarber = await this.serviceListRepository.verifyServicesBelongToBarber(services, barberId)
+
+        if(!servicesIsTheBarber) {
+            return left(new ThisServiceIsNotAvailableAtTheBarber())
         }
 
         // verificando se barbeiro está disponivel na data e hora selecionada
