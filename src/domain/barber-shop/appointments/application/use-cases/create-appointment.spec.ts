@@ -12,10 +12,17 @@ import { IsBarberNotAvailableOnDateAndHours } from "src/domain/barber-shop/barbe
 import { InMemoryServiceRepository } from "src/domain/test/repositories/in-memory-service-repository";
 import { makeService } from "src/domain/test/factories/make-service";
 import { ThisServiceIsNotAvailableAtTheBarber } from "src/domain/barber-shop/barber/errors/this-service-is-not-available-at-the-barber";
+import { ListAvailableHoursOfBarberOnChosenDateUseCase } from "src/domain/barber-shop/hours/application/use-cases/listAvailableHoursOfBarberOnChosenDate";
+import { InMemoryHourRepository } from "src/domain/test/repositories/in-memory-hour-repository";
+import { CalculateNumberIdsHoursAppointment } from "src/domain/barber-shop/hours/application/use-cases/calculate-number-ids-hours-appointment";
+import { makeHour } from "src/domain/test/factories/make-hour";
 
 describe('tests related to appointments', () => {
 
     let inMemoryAppointmentRepository: InMemoryAppointmentRepository
+    let listAvailableHoursOfBarberOnChosenDate: ListAvailableHoursOfBarberOnChosenDateUseCase
+    let inMemoryHourRepository: InMemoryHourRepository
+    let calculateNumberIdsHoursAppointments: CalculateNumberIdsHoursAppointment
     let inMemoryBarberRepository: InMemoryBarberRepository
     let inMemoryCustomerRepository: InMemoryCustomerRepository
     let inMemoryServiceRepository: InMemoryServiceRepository
@@ -25,6 +32,9 @@ describe('tests related to appointments', () => {
     beforeEach(() => {
         inMemoryAppointmentRepository = new InMemoryAppointmentRepository()
         inMemoryBarberRepository = new InMemoryBarberRepository()
+        inMemoryHourRepository = new InMemoryHourRepository(inMemoryAppointmentRepository)
+        calculateNumberIdsHoursAppointments = new CalculateNumberIdsHoursAppointment(inMemoryHourRepository)
+        listAvailableHoursOfBarberOnChosenDate = new ListAvailableHoursOfBarberOnChosenDateUseCase(inMemoryHourRepository, inMemoryBarberRepository)
         inMemoryCustomerRepository = new InMemoryCustomerRepository()
         inMemoryServiceRepository = new InMemoryServiceRepository()
 
@@ -36,10 +46,10 @@ describe('tests related to appointments', () => {
     )
     })
 
-    it('Deve ser possivel realizar um agendamento', async () => {
+    it('Deve ser possivel realizar um agendamento com um fluxo completo', async () => {
 
-        const barber = makeBarber({}, new UniqueEntityId('1'))
-        const customer = makeCustomer({}, new UniqueEntityId('1'))
+        const barber = makeBarber({}, new UniqueEntityId('barber-1'))
+        const customer = makeCustomer({}, new UniqueEntityId('customer-1'))
         const service = makeService({
             barbers: [new UniqueEntityId(barber.id.toValue)],
         }, new UniqueEntityId('service-1'))
@@ -48,19 +58,42 @@ describe('tests related to appointments', () => {
         inMemoryCustomerRepository.items.push(customer)
         inMemoryServiceRepository.items.push(service)
 
-        const result = await sut.execute({
-            appointmentDate: '2025-04-25',
-            barberId: barber.id.toValue,
-            customerId: customer.id.toValue,
-            hours: ['id-10', 'id-11'],
-            paymentMethod: 'cash',
+        inMemoryHourRepository.items.push(makeHour({hour: '8:00'}, new UniqueEntityId('hour-1')))
+        inMemoryHourRepository.items.push(makeHour({hour: '8:30'}, new UniqueEntityId('hour-2')))
+        inMemoryHourRepository.items.push(makeHour({hour: '9:00'}, new UniqueEntityId('hour-3')))
+        inMemoryHourRepository.items.push(makeHour({hour: '9:30'}, new UniqueEntityId('hour-4')))
+        inMemoryHourRepository.items.push(makeHour({hour: '10:00'}, new UniqueEntityId('hour-5')))
+
+
+        const horariosDisponiveis = await listAvailableHoursOfBarberOnChosenDate.execute({
+            barberId: 'barber-1',
+            dateAppointment: '2025-04-29'
+        })
+        expect(horariosDisponiveis.value.hours).toEqual(expect.objectContaining(['hour-1', 'hour-2', 'hour-3', 'hour-4', 'hour-5']))
+
+        const horariosNecessarios = await calculateNumberIdsHoursAppointments.execute({
+            hourInitialId: 'hour-1',
+            serviceDuration: 90,
+            hoursBarbersId: horariosDisponiveis.value.hours
+        }) 
+        expect(horariosNecessarios.value).toEqual(expect.objectContaining({hours: ['hour-1', 'hour-2', 'hour-3']}))
+
+        const appointment = await sut.execute({
+            appointmentDate: '2025-04-29',
+            barberId: 'barber-1',
+            customerId: 'customer-1',
+            hours: horariosNecessarios.value.hours,
             services: [service.id.toValue],
-            totalPrice: 100.00,
-            notes: 'Quero que seja rápido'
+            paymentMethod: 'cash',
+            totalPrice: 50.00
         })
 
-        expect(result.isRight()).toBe(true)
-        expect(inMemoryAppointmentRepository.items).toHaveLength(1)
+        expect(appointment.value.appointment).toEqual(expect.objectContaining({
+            appointmentDate: new DateVo('2025-04-29'),
+            barberId: new UniqueEntityId('barber-1'),
+            hours: [new UniqueEntityId('hour-1'), new UniqueEntityId('hour-2'), new UniqueEntityId('hour-3')]
+        }))
+        
     })
     
     it('Não deve ser possível agendar um horário na data e no barbeiro escolhido se os horários estiverem ocupados', async () => {

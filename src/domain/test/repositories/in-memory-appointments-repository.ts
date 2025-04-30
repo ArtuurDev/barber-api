@@ -4,9 +4,18 @@ import { Appointments } from "src/domain/barber-shop/appointments/enterprise/ent
 export class InMemoryAppointmentRepository implements AppointmentsRepository {
     public items: Appointments[] = []
 
-    async crete(appointment: Appointments): Promise<Appointments> {
+    async create(appointment: Appointments): Promise<Appointments> {
         this.items.push(appointment)
         return appointment
+    }
+
+    async findMany(page?: number): Promise<Appointments[]> {
+        
+        if(!page) {
+            return this.items
+        }
+        const appointments = this.items.slice((page - 1) * 20, page * 20)
+        return appointments
     }
 
     async isBarberAvailableOnDateAndHour({ appointmentDate, barberId, hours }: isBarberAvailableOnDateAndHourParams): Promise<boolean> {

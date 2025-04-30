@@ -15,6 +15,11 @@ export class InMemoryCustomerRepository implements CustomerRepository {
         return this.items.find(item => item.id.toValue === id)
     }
 
+    async findMany(page: number): Promise<Customer[]> {
+        return this.items.slice((page - 1) * 5, page * 5)
+
+    }
+
     async findByEmail(email: string): Promise<Customer | undefined> {
         return this.items.find(item => item.email.value === email)
     }

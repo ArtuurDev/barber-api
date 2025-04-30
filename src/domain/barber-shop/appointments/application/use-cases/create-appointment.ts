@@ -91,7 +91,7 @@ export class CreateAppointmentUseCase {
                 totalPrice: totalPrice,
                 notes: notes ?? null
             })
-            await this.appointmentRepository.crete(appointment)
+            await this.appointmentRepository.create(appointment)
             return right({appointment})
         }
         catch(err) {

@@ -5,4 +5,5 @@ export abstract class CustomerRepository {
     abstract findById(id: string): Promise<Customer | undefined>
     abstract findByEmail(email: string): Promise<Customer | undefined>
     abstract findByCpf(cpf: string): Promise<Customer | undefined>
+    abstract findMany(page: number): Promise<Customer[]>
 }

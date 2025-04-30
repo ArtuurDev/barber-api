@@ -9,7 +9,7 @@ import { DateVo } from "src/domain/value-objects/date";
 export function makeCustomer(override: Partial<customerProps> = {}, id?: UniqueEntityId) {
 
     return Customer.create({
-        full_name: new Name('Luiz Artur'),
+        fullName: new Name('Luiz Artur'),
         cpf: new Cpf('62240847344'),
         email: new Email('arturcastrodossantos.com@gmail.com'),
         birthDateAt: new DateVo('2006-02-24'),

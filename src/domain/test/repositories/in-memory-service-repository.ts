@@ -10,6 +10,11 @@ export class InMemoryServiceRepository implements ServiceListRepository {
     async create(serviceList: ServicesList): Promise<any> {
         return this.items.push(serviceList)
     }
+
+    async findMany(): Promise<ServicesList[]> {
+        return this.items
+    }
+    
     async verifyServicesBelongToBarber(services: string[], barber: string): Promise<boolean> {
         
         // verificando em cada serviço se o id é igual aos que foram passado por parametro, se sim,

@@ -1,23 +1,48 @@
-USE CASES - 
+✅ Casos de Uso (Use Cases)
+ [X] - Criar Cliente – disponível para administrador e cliente
 
-[x] - CREATE CUSTOMER - para administrador e cliente 
-[] - CREATE BARBER - para adminstrador
-[] - LIST BARBER - mostrar os dados na interface para o usuário escolher o barbeiro
-[x] - CREATE APPOINTMENT - para administrador e cliente
-[] - LIST CUSTOMER - para admistrador 
-[] - GET PROFILE THE CUSTOMER
-[] - LIST APPOINTMENT - para admistrador
-[] - LIST HOURS AVAILABLE - para mostrar na interface após o usuário escolher o barbeiro e serviço
-[] - LIST SERVICES - para mostrar na interface do usuário quando ele for escolher um serviço
+ [X] - Criar Barbeiro – apenas para administrador
 
-CONTROLLERS -
+ [X] - Listar Barbeiros – para exibir na interface e o usuário escolher o barbeiro
 
-[] - CREATE CUSTOMER - para administrador e cliente 
-[] - CREATE BARBER - para adminstrador
-[] - LIST BARBER - mostrar os dados na interface para o usuário escolher o barbeiro
-[] - CREATE APPOINTMENT - para administrador e cliente
-[] - LIST CUSTOMER - para admistrador 
-[] - GET PROFILE THE CUSTOMER
-[] - LIST APPOINTMENT - para admistrador
-[] - LIST HOURS AVAILABLE - para mostrar na interface após o usuário escolher o barbeiro e serviço
-[] - LIST SERVICES - para mostrar na interface do usuário quando ele for escolher um serviço
+ [X] - Criar Agendamento – disponível para administrador e cliente
+
+ [X] - Listar Clientes – apenas para administrador
+
+ [X] - Visualizar Perfil do Cliente
+
+ [X] - Listar Agendamentos – apenas para administrador
+
+ [X] - Criar Horários Fixos
+
+ [X] - Listar Horários Disponíveis – mostrar na interface após escolher barbeiro e serviço
+
+ [X] - Criar Serviços 
+
+ [X] - Listar Serviços – mostrar na interface para o usuário ao escolher o serviço
+
+ [x] - Listar Horários Disponíveis de um Barbeiro na Data Escolhida
+
+ [x] - Calcular o numero de ids de hours um serviço/agendamento vai ter
+
+ [] - Listar os Serviços Disponíveis de um Barbeiro
+
+🕹️ Controllers
+ Criar Cliente – disponível para administrador e cliente
+
+ Criar Barbeiro – apenas para administrador
+
+ Listar Barbeiros – para exibir na interface e o usuário escolher o barbeiro
+
+ Criar Agendamento – disponível para administrador e cliente
+
+ Listar Clientes – apenas para administrador
+
+ Visualizar Perfil do Cliente
+
+ Listar Agendamentos – apenas para administrador
+
+ Listar Horários Disponíveis – mostrar na interface após escolher barbeiro e serviço
+
+ Listar Serviços – mostrar na interface para o usuário ao escolher o serviço
+

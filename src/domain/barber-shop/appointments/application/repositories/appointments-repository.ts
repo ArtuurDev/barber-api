@@ -9,7 +9,7 @@ export interface isBarberAvailableOnDateAndHourParams {
 }
 
 export abstract class AppointmentsRepository {
-    abstract crete(appointment: Appointments): Promise<Appointments>
+    abstract create(appointment: Appointments): Promise<Appointments>
     abstract isBarberAvailableOnDateAndHour({appointmentDate,barberId,hours}: isBarberAvailableOnDateAndHourParams): Promise<boolean>
-    
+    abstract findMany(page?: number): Promise<Appointments[]>
 }

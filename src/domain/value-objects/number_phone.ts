@@ -13,7 +13,7 @@ export class NumberPhone {
         return this._numberPhone
     }
     
-    phoneValidation(numberPhone: string) {
+    private phoneValidation(numberPhone: string) {
         const regex = /^\(?\d{2}\)?\s?(9\d{4}|\d{4})-?\d{4}$/
 
         if(!regex.test(numberPhone)) {

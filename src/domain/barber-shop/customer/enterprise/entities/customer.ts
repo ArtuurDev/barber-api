@@ -7,7 +7,7 @@ import { NumberPhone } from "../../../../value-objects/number_phone";
 import { DateVo } from "src/domain/value-objects/date";
 
 export interface customerProps {
-    full_name: Name
+    fullName: Name
     email: Email
     cpf: Cpf
     numberPhone: NumberPhone
@@ -35,7 +35,7 @@ export class Customer extends Entity<customerProps> {
     }
 
     get full_name() {
-        return this.props.full_name
+        return this.props.fullName
     }
 
     get cpf() {

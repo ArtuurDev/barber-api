@@ -12,7 +12,7 @@ export class Cpf {
         return this._cpf
     }
 
-    cpfValidation(cpf: string) {
+    private cpfValidation(cpf: string) {
             // Remove qualquer caractere que não seja número
             const cleaned = cpf.replace(/[^\d]/g, '')
           
